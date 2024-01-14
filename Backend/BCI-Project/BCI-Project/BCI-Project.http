@@ -1,0 +1,6 @@
+@BCI_Project_HostAddress = http://localhost:5192
+
+GET {{BCI_Project_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
