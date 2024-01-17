@@ -4612,11 +4612,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\pc\\source\\repos\\BCI-Project\\BCI-Project\\BCI-Project.csproj",
+      "projectUniqueName": "C:\\Users\\pc\\Desktop\\GitGraduation\\BCI-based-ML-algorithms-for-Stroke-Rehabilitation\\Backend\\BCI-Project\\BCI-Project\\BCI-Project.csproj",
       "projectName": "BCI-Project",
-      "projectPath": "C:\\Users\\pc\\source\\repos\\BCI-Project\\BCI-Project\\BCI-Project.csproj",
+      "projectPath": "C:\\Users\\pc\\Desktop\\GitGraduation\\BCI-based-ML-algorithms-for-Stroke-Rehabilitation\\Backend\\BCI-Project\\BCI-Project\\BCI-Project.csproj",
       "packagesPath": "C:\\Users\\pc\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\pc\\source\\repos\\BCI-Project\\BCI-Project\\obj\\",
+      "outputPath": "C:\\Users\\pc\\Desktop\\GitGraduation\\BCI-based-ML-algorithms-for-Stroke-Rehabilitation\\Backend\\BCI-Project\\BCI-Project\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\pc\\AppData\\Roaming\\NuGet\\NuGet.Config",

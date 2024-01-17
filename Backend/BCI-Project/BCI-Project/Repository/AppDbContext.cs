@@ -56,20 +56,20 @@ namespace BCI_Project.Repository
                 .WithMany(b => b.CommentsDoctors)
                 .HasForeignKey(c => c.DoctorId).OnDelete(DeleteBehavior.NoAction);
 
-            modelBuilder.Entity<GameLog>()
+            modelBuilder.Entity<Game>()
                 .HasOne(a => a.Patient)
-                .WithMany(b => b.GameLogPatients)
+                .WithMany(b => b.GamePatients)
                 .HasForeignKey(c => c.PatientId).OnDelete(DeleteBehavior.NoAction);
 
-            modelBuilder.Entity<GameLog>()
+            modelBuilder.Entity<Game>()
                 .HasOne(a => a.Level)
-                .WithMany(b => b.GameLogLevels)
+                .WithMany(b => b.GameLevels)
                 .HasForeignKey(c => c.LevelId).OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<GameMovements>()
-                .HasOne(a => a.GameLog)
-                .WithMany(b => b.GameMovementsGameLogs)
-                .HasForeignKey(c => c.GameLogId).OnDelete(DeleteBehavior.NoAction);
+                .HasOne(a => a.Game)
+                .WithMany(b => b.GameMovementsGames)
+                .HasForeignKey(c => c.GameId).OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

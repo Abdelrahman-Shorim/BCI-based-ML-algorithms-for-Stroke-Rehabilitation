@@ -1,6 +1,6 @@
 ﻿namespace BCI_Project.Models
 {
-    public class GameLog : BaseModel
+    public class Game : BaseModel
     {
         public string PatientId { get; set; }
         public Guid LevelId { get; set; }
@@ -14,7 +14,7 @@
         public User Patient { get; set; }
         public Levels Level { get; set; }
 
-        public ICollection<GameMovements> GameMovementsGameLogs { get; set; }
+        public ICollection<GameMovements> GameMovementsGames { get; set; }
 
     }
 }

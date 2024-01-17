@@ -2,11 +2,11 @@
 {
     public class GameMovements : BaseModel
     {
-        public Guid GameLogId { get; set; }
+        public Guid GameId { get; set; }
         public string RequiredMovement { get; set; }
         public string ActualMovement { get; set; }
         public string BrainSignals { get; set; }
 
-        public GameLog GameLog { get; set; }
+        public Game Game { get; set; }
     }
 }

@@ -10,7 +10,7 @@ namespace BCI_Project.Models
         public ICollection<DrPatients> DrPatientsPatients { get; set; }
         public ICollection<DrPatients> DrPatientsDoctors { get; set; }
 
-        public ICollection<GameLog> GameLogPatients { get; set; }
+        public ICollection<Game> GamePatients { get; set; }
 
         public ICollection<SignalsAdaptation> SignalsAdaptationPatients { get; set; }
 

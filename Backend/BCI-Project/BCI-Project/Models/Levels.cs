@@ -6,7 +6,7 @@
         public string Description { get; set; }
 
         //public ICollection<GameLog> GameLogPatients { get; set; }
-        public ICollection<GameLog> GameLogLevels { get; set; }
+        public ICollection<Game> GameLevels { get; set; }
 
 
     }
