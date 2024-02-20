@@ -273,3 +273,4 @@ C:\Users\pc\Desktop\GitGraduation\BCI-based-ML-algorithms-for-Stroke-Rehabilitat
 C:\Users\pc\Desktop\GitGraduation\BCI-based-ML-algorithms-for-Stroke-Rehabilitation\Backend\BCI-Project\BCI-Project\obj\Debug\net8.0\BCI-Project.pdb
 C:\Users\pc\Desktop\GitGraduation\BCI-based-ML-algorithms-for-Stroke-Rehabilitation\Backend\BCI-Project\BCI-Project\obj\Debug\net8.0\BCI-Project.genruntimeconfig.cache
 C:\Users\pc\Desktop\GitGraduation\BCI-based-ML-algorithms-for-Stroke-Rehabilitation\Backend\BCI-Project\BCI-Project\obj\Debug\net8.0\ref\BCI-Project.dll
+C:\Users\pc\Desktop\GitGraduation\BCI-based-ML-algorithms-for-Stroke-Rehabilitation\Backend\BCI-Project\BCI-Project\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

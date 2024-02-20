@@ -199,6 +199,29 @@ namespace BCI_Project.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "41df7a81-5390-44e1-b655-733d3fdfb0ec",
+                            ConcurrencyStamp = "1",
+                            Name = "Admin",
+                            NormalizedName = "Admin"
+                        },
+                        new
+                        {
+                            Id = "b8b009df-98cc-4f1b-b7ea-61e967f5e39a",
+                            ConcurrencyStamp = "2",
+                            Name = "Patient",
+                            NormalizedName = "Patient"
+                        },
+                        new
+                        {
+                            Id = "1861dec5-7a04-491c-bc20-d9d435d92d1c",
+                            ConcurrencyStamp = "3",
+                            Name = "Doctor",
+                            NormalizedName = "Doctor"
+                        });
                 });
 
             modelBuilder.Entity("BCI_Project.Models.RoleAttributes", b =>

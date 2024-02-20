@@ -1,4 +1,5 @@
 ﻿using BCI_Project.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,17 +14,18 @@ namespace BCI_Project.Repository
 
         public static void SeedRoles(ModelBuilder builder)
         {
-            /*builder.Entity<IdentityRole>().HasData
+            builder.Entity<Role>().HasData
                 (
-                new IdentityRole() { Name = "Admin", ConcurrencyStamp = "1", NormalizedName = "Admin" },
-                new IdentityRole() { Name = "Client", ConcurrencyStamp = "2", NormalizedName = "Client" }
-                );*/
+                new Role() { Name = "Admin", ConcurrencyStamp = "1", NormalizedName = "Admin" },
+                new Role() { Name = "Patient", ConcurrencyStamp = "2", NormalizedName = "Patient" },
+                new Role() { Name = "Doctor", ConcurrencyStamp = "3", NormalizedName = "Doctor" }
+                );
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            //SeedRoles(modelBuilder);
+            SeedRoles(modelBuilder);
 
 
             modelBuilder.Entity<RoleAttributes>()

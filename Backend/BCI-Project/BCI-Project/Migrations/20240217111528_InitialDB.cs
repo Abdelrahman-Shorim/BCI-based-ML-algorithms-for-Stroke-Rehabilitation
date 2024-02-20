@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace BCI_Project.Migrations
 {
     /// <inheritdoc />
@@ -261,7 +263,7 @@ namespace BCI_Project.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "GameLog",
+                name: "Game",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -275,14 +277,14 @@ namespace BCI_Project.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_GameLog", x => x.Id);
+                    table.PrimaryKey("PK_Game", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_GameLog_AspNetUsers_PatientId",
+                        name: "FK_Game_AspNetUsers_PatientId",
                         column: x => x.PatientId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_GameLog_Levels_LevelId",
+                        name: "FK_Game_Levels_LevelId",
                         column: x => x.LevelId,
                         principalTable: "Levels",
                         principalColumn: "Id");
@@ -293,7 +295,7 @@ namespace BCI_Project.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    GameLogId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    GameId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     RequiredMovement = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ActualMovement = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     BrainSignals = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -303,10 +305,20 @@ namespace BCI_Project.Migrations
                 {
                     table.PrimaryKey("PK_GameMovements", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_GameMovements_GameLog_GameLogId",
-                        column: x => x.GameLogId,
-                        principalTable: "GameLog",
+                        name: "FK_GameMovements_Game_GameId",
+                        column: x => x.GameId,
+                        principalTable: "Game",
                         principalColumn: "Id");
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[,]
+                {
+                    { "1861dec5-7a04-491c-bc20-d9d435d92d1c", "3", "Doctor", "Doctor" },
+                    { "41df7a81-5390-44e1-b655-733d3fdfb0ec", "1", "Admin", "Admin" },
+                    { "b8b009df-98cc-4f1b-b7ea-61e967f5e39a", "2", "Patient", "Patient" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -369,19 +381,19 @@ namespace BCI_Project.Migrations
                 column: "PatientId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_GameLog_LevelId",
-                table: "GameLog",
+                name: "IX_Game_LevelId",
+                table: "Game",
                 column: "LevelId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_GameLog_PatientId",
-                table: "GameLog",
+                name: "IX_Game_PatientId",
+                table: "Game",
                 column: "PatientId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_GameMovements_GameLogId",
+                name: "IX_GameMovements_GameId",
                 table: "GameMovements",
-                column: "GameLogId");
+                column: "GameId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_RoleAttributes_RoleId",
@@ -428,7 +440,7 @@ namespace BCI_Project.Migrations
                 name: "SignalsAdaptation");
 
             migrationBuilder.DropTable(
-                name: "GameLog");
+                name: "Game");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
