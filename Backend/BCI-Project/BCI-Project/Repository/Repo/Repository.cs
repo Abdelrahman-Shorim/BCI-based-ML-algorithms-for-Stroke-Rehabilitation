@@ -1,6 +1,6 @@
 ﻿using BCI_Project.Models;
 
-namespace BCI_Project.Repository
+namespace BCI_Project.Repository.Repo
 {
     public class Repository<T> : IRepository<T> where T : BaseModel
     {
@@ -15,7 +15,7 @@ namespace BCI_Project.Repository
         {
             return _context.Set<T>().Where(a => a.IsDeleted == false).ToList();
         }
-        public T GetById(int id)
+        public T GetById(Guid id)
         {
             var x = _context.Set<T>().Find(id);
             if (x == null)
@@ -35,7 +35,7 @@ namespace BCI_Project.Repository
             var y = _context.Set<T>().Update(entity);
             return entity;
         }
-        public T Delete(int id)
+        public T Delete(Guid id)
         {
             var entity = GetById(id);
             //_context.Set<T>().Remove(entity);

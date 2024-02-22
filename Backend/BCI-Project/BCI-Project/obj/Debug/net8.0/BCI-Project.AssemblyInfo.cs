@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BCI-Project")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+43d110e4fe8cc26f99e54b5abcbb4f027210c181")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+40680b37b691bbcdf67888fc62b69c18135883ec")]
 [assembly: System.Reflection.AssemblyProductAttribute("BCI-Project")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BCI-Project")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
