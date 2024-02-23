@@ -4342,19 +4342,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\pc\\.nuget\\packages\\": {}
+    "C:\\Users\\ab_ay\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\pc\\Desktop\\GitGraduation\\BCI-based-ML-algorithms-for-Stroke-Rehabilitation\\Backend\\BCI-Project\\BCI-Project\\BCI-Project.csproj",
+      "projectUniqueName": "C:\\Users\\ab_ay\\OneDrive\\Desktop\\Git BCI- based ML algorithms  for Stroke Rehabilitation\\BCI-based-ML-algorithms-for-Stroke-Rehabilitation\\Backend\\BCI-Project\\BCI-Project\\BCI-Project.csproj",
       "projectName": "BCI-Project",
-      "projectPath": "C:\\Users\\pc\\Desktop\\GitGraduation\\BCI-based-ML-algorithms-for-Stroke-Rehabilitation\\Backend\\BCI-Project\\BCI-Project\\BCI-Project.csproj",
-      "packagesPath": "C:\\Users\\pc\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\pc\\Desktop\\GitGraduation\\BCI-based-ML-algorithms-for-Stroke-Rehabilitation\\Backend\\BCI-Project\\BCI-Project\\obj\\",
+      "projectPath": "C:\\Users\\ab_ay\\OneDrive\\Desktop\\Git BCI- based ML algorithms  for Stroke Rehabilitation\\BCI-based-ML-algorithms-for-Stroke-Rehabilitation\\Backend\\BCI-Project\\BCI-Project\\BCI-Project.csproj",
+      "packagesPath": "C:\\Users\\ab_ay\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\ab_ay\\OneDrive\\Desktop\\Git BCI- based ML algorithms  for Stroke Rehabilitation\\BCI-based-ML-algorithms-for-Stroke-Rehabilitation\\Backend\\BCI-Project\\BCI-Project\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\pc\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\ab_ay\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -4426,7 +4426,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

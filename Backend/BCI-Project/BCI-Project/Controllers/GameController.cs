@@ -1,10 +1,13 @@
 ﻿using BCI_Project.Models;
 using BCI_Project.Services.GameService;
+using BCI_Project.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
 namespace BCI_Project.Controllers
 {
+    [Authorize]
     public class GameController : Controller
     {
         private readonly IGameService _gameservice;
@@ -28,14 +31,14 @@ namespace BCI_Project.Controllers
         }
 
         [HttpPost(nameof(AddGame))]
-        public async Task<IActionResult> AddGame([FromBody] Game _game)
+        public async Task<IActionResult> AddGame([FromBody] GameVM _game)
         {
             var result = await _gameservice.AddGame(_game,User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
             return Ok(result);
         }
 
         [HttpPut(nameof(UpdateGame))]
-        public async Task<IActionResult> UpdateGame([FromBody] Game _game)
+        public async Task<IActionResult> UpdateGame([FromBody] GameVM _game)
         {
             var result = await _gameservice.UpdateGame(_game);
             return Ok(result);

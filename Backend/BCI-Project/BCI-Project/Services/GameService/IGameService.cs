@@ -1,14 +1,15 @@
 ﻿using BCI_Project.Models;
 using BCI_Project.Response;
+using BCI_Project.ViewModels;
 
 namespace BCI_Project.Services.GameService
 {
     public interface IGameService
     {
-        Task<Response<ICollection<Game>>> GetAllGames();
-        Task<Response<Game>> GetGameById(Guid id);
-        Task<Response<Game>> AddGame(Game game,string userid);
-        Task<Response<Game>> UpdateGame(Game game);
-        Task<Response<Game>> DeleteGame(Guid id);
+        Task<Response<ICollection<GameVM>>> GetAllGames();
+        Task<Response<GameVM>> GetGameById(Guid id);
+        Task<Response<GameVM>> AddGame(GameVM game,string userid);
+        Task<Response<GameVM>> UpdateGame(GameVM game);
+        Task<Response<GameVM>> DeleteGame(Guid id);
     }
 }

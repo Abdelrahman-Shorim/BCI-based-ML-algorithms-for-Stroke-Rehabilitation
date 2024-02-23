@@ -1,7 +1,10 @@
 using BCI_Project.Models;
 using BCI_Project.Repository;
 using BCI_Project.Repository.Repo;
+using BCI_Project.Services.GameService;
+using BCI_Project.Services.GameTypeService;
 using BCI_Project.Services.UserService;
+using BCI_Project.UnitOfWork;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -19,6 +22,11 @@ builder.Services.AddControllers();
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IGameTypeService, GameTypeService>();
+builder.Services.AddScoped<IGameService, GameService>();
+
+
 
 
 

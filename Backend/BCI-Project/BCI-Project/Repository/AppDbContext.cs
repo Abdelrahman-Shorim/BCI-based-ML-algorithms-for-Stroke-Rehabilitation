@@ -64,9 +64,9 @@ namespace BCI_Project.Repository
                 .HasForeignKey(c => c.PatientId).OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Game>()
-                .HasOne(a => a.Level)
-                .WithMany(b => b.GameLevels)
-                .HasForeignKey(c => c.LevelId).OnDelete(DeleteBehavior.NoAction);
+                .HasOne(a => a.GameType)
+                .WithMany(b => b.GameTypes)
+                .HasForeignKey(c => c.GameTypeId).OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<GameMovements>()
                 .HasOne(a => a.Game)
