@@ -19,6 +19,7 @@ namespace BCI_Project.UnitOfWork
         public IRepository<GameType> GameType { get; private set; }
         public IRepository<GameMovements> GameMovement { get; private set; }
         public IRepository<Comments> Comment { get; private set; }
+        public IRepository<DrPatients> DrPatients { get; private set; }
 
         public UnitOfWork(AppDbContext context)
         {
@@ -27,6 +28,7 @@ namespace BCI_Project.UnitOfWork
             GameType = new Repository<GameType>(_context);
             GameMovement = new Repository<GameMovements>(_context);
             Comment = new Repository<Comments>(_context);
+            DrPatients = new Repository<DrPatients>(_context);
         }
 
         public void Dispose()

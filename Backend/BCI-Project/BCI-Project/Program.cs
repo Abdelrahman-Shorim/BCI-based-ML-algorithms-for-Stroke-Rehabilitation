@@ -1,6 +1,8 @@
 using BCI_Project.Models;
 using BCI_Project.Repository;
 using BCI_Project.Repository.Repo;
+using BCI_Project.Services.CommentService;
+using BCI_Project.Services.DrPatientsService;
 using BCI_Project.Services.GameMovementService;
 using BCI_Project.Services.GameService;
 using BCI_Project.Services.GameTypeService;
@@ -27,6 +29,9 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IGameTypeService, GameTypeService>();
 builder.Services.AddScoped<IGameService, GameService>();
 builder.Services.AddScoped<IGameMovementService,GameMovementService>();
+builder.Services.AddScoped<ICommentService, CommentService>();
+builder.Services.AddScoped<IDrPatientsService, DrPatientsService>();
+
 
 
 
