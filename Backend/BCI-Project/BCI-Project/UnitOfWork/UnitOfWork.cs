@@ -1,6 +1,7 @@
 ﻿using BCI_Project.Models;
 using BCI_Project.Repository;
 using BCI_Project.Repository.Repo;
+using BCI_Project.ViewModels;
 
 namespace BCI_Project.UnitOfWork
 {
@@ -20,6 +21,7 @@ namespace BCI_Project.UnitOfWork
         public IRepository<GameMovements> GameMovement { get; private set; }
         public IRepository<Comments> Comment { get; private set; }
         public IRepository<DrPatients> DrPatients { get; private set; }
+        public IRepository<SignalsAdaptation> SignalsAdaptation { get; private set; }
 
         public UnitOfWork(AppDbContext context)
         {
@@ -29,6 +31,7 @@ namespace BCI_Project.UnitOfWork
             GameMovement = new Repository<GameMovements>(_context);
             Comment = new Repository<Comments>(_context);
             DrPatients = new Repository<DrPatients>(_context);
+            SignalsAdaptation = new Repository<SignalsAdaptation>(_context);
         }
 
         public void Dispose()

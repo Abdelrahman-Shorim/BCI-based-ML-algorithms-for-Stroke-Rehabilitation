@@ -6,6 +6,7 @@ using BCI_Project.Services.DrPatientsService;
 using BCI_Project.Services.GameMovementService;
 using BCI_Project.Services.GameService;
 using BCI_Project.Services.GameTypeService;
+using BCI_Project.Services.SignalsAdaptaionService;
 using BCI_Project.Services.UserService;
 using BCI_Project.UnitOfWork;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -31,6 +32,8 @@ builder.Services.AddScoped<IGameService, GameService>();
 builder.Services.AddScoped<IGameMovementService,GameMovementService>();
 builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddScoped<IDrPatientsService, DrPatientsService>();
+builder.Services.AddScoped<ISignalAdaptationService, SignalAdaptationService>();
+
 
 
 

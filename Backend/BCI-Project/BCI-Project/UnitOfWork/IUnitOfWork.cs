@@ -6,20 +6,12 @@ namespace BCI_Project.UnitOfWork
 {
     public interface IUnitOfWork : IDisposable
     {
-        ////IRepository<UserType> UserType { get; }
-        ////IRepository<User> User { get; }
-        //IRepository<PaymentMethod> PaymentMethod { get; }
-        //IRepository<Order> Order { get; }
-        //OrderDetailRepository OrderDetail { get; }
-        //IRepository<Category> Category { get; }
-        //IRepository<Product> Product { get; }
-        //IRepository<Discount> Discount { get; }
-
         IRepository<Game> Game { get; }
         IRepository<GameType> GameType { get; }
         IRepository<GameMovements> GameMovement { get; }
         IRepository<Comments> Comment { get; }
         IRepository<DrPatients> DrPatients { get; }
+        IRepository<SignalsAdaptation> SignalsAdaptation { get; }
 
 
         int Save();
