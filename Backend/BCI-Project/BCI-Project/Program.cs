@@ -1,6 +1,7 @@
 using BCI_Project.Models;
 using BCI_Project.Repository;
 using BCI_Project.Repository.Repo;
+using BCI_Project.Services.GameMovementService;
 using BCI_Project.Services.GameService;
 using BCI_Project.Services.GameTypeService;
 using BCI_Project.Services.UserService;
@@ -25,6 +26,7 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IGameTypeService, GameTypeService>();
 builder.Services.AddScoped<IGameService, GameService>();
+builder.Services.AddScoped<IGameMovementService,GameMovementService>();
 
 
 

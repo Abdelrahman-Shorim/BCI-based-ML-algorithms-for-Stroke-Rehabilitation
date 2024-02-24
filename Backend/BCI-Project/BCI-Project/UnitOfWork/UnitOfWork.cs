@@ -17,12 +17,14 @@ namespace BCI_Project.UnitOfWork
         //public IRepository<Discount> Discount { get; private set; }
         public IRepository<Game> Game { get; private set; }
         public IRepository<GameType> GameType { get; private set; }
+        public IRepository<GameMovements> GameMovement { get; private set; }
 
         public UnitOfWork(AppDbContext context)
         {
             _context = context;
             Game=new Repository<Game>(_context);
             GameType = new Repository<GameType>(_context);
+            GameMovement = new Repository<GameMovements>(_context);
 
             ///* UserType = new Repository<UserType>(_context);
             // User = new Repository<User>(_context);*/
