@@ -18,6 +18,8 @@ namespace BCI_Project.UnitOfWork
         IRepository<Game> Game { get; }
         IRepository<GameType> GameType { get; }
         IRepository<GameMovements> GameMovement { get; }
+        IRepository<Comments> Comment { get; }
+
 
         int Save();
     }

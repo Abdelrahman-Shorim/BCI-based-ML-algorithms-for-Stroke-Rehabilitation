@@ -18,6 +18,7 @@ namespace BCI_Project.UnitOfWork
         public IRepository<Game> Game { get; private set; }
         public IRepository<GameType> GameType { get; private set; }
         public IRepository<GameMovements> GameMovement { get; private set; }
+        public IRepository<Comments> Comment { get; private set; }
 
         public UnitOfWork(AppDbContext context)
         {
@@ -25,16 +26,7 @@ namespace BCI_Project.UnitOfWork
             Game=new Repository<Game>(_context);
             GameType = new Repository<GameType>(_context);
             GameMovement = new Repository<GameMovements>(_context);
-
-            ///* UserType = new Repository<UserType>(_context);
-            // User = new Repository<User>(_context);*/
-            //PaymentMethod = new Repository<PaymentMethod>(_context);
-            //Order = new Repository<Order>(_context);
-            //OrderDetail = new OrderDetailRepository(_context);
-            //Category = new Repository<Category>(_context);
-            //Product = new Repository<Product>(_context);
-            //Discount = new Repository<Discount>(_context);
-
+            Comment = new Repository<Comments>(_context);
         }
 
         public void Dispose()
