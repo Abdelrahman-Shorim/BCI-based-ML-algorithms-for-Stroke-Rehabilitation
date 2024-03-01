@@ -2,8 +2,8 @@
 {
     public class Comments : BaseModel
     {
-        public Guid PatientId { get; set; }
-        public Guid DoctorId { get; set; }
+        public string PatientId { get; set; }
+        public string DoctorId { get; set; }
         public string Message { get; set; }
         public string Sender { get; set; }
 

@@ -3,9 +3,11 @@
     public class RoleAttributes : BaseModel
     {
         public string RoleId { get; set; }
-        public string AttributeName { get; set; }
-        public string AttributeValue { get; set; }
+        public Guid AttributeId { get; set; }
 
         public Role Role { get; set; }
+        public Attribute Attribute { get; set; }
+        public ICollection<RoleAttributeValue> RoleAttributeValues { get; set; }
+
     }
 }

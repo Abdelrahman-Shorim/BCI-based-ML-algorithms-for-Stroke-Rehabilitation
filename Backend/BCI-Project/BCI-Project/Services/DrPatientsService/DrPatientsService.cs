@@ -154,7 +154,7 @@ namespace BCI_Project.Services.DrPatientsService
                 IsSuccess = true
             };
         }
-        public async Task<Response<ICollection<DrPatientsVM>>> GetAllDrPatientsByDoctorId(Guid id)
+        public async Task<Response<ICollection<DrPatientsVM>>> GetAllDrPatientsByDoctorId(string id)
         {
             var drpatients = _unitofwork.DrPatients.GetAll().Select(a => new DrPatientsVM()
             {

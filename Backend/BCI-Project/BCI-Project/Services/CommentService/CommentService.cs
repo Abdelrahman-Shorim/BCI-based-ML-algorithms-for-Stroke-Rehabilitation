@@ -166,7 +166,7 @@ namespace BCI_Project.Services.CommentService
                 IsSuccess = true
             };
         }
-        public async Task<Response<ICollection<CommentVM>>> GetAllCommentsByPatientId(Guid id)
+        public async Task<Response<ICollection<CommentVM>>> GetAllCommentsByPatientId(string id)
         {
             var comments = _unitofwork.Comment.GetAll().Select(a => new CommentVM()
             {

@@ -4,6 +4,7 @@ using BCI_Project.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BCI_Project.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240301020547_DB")]
+    partial class DB
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,28 +24,6 @@ namespace BCI_Project.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("BCI_Project.Models.Attribute", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("AttributeName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("AttributeType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Attribute");
-                });
 
             modelBuilder.Entity("BCI_Project.Models.Comments", b =>
                 {
@@ -229,54 +210,25 @@ namespace BCI_Project.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "a835837f-0213-4c9b-aa3f-6e30ffb417fa",
+                            Id = "7ce5ebbe-546f-492f-a436-3d2da9b9c156",
                             ConcurrencyStamp = "1",
                             Name = "Admin",
                             NormalizedName = "Admin"
                         },
                         new
                         {
-                            Id = "08b244d2-9875-4ab1-a1b7-0e1d105d98f5",
+                            Id = "a867cb53-b4d4-4312-aed4-1ccae3385b8d",
                             ConcurrencyStamp = "2",
                             Name = "Patient",
                             NormalizedName = "Patient"
                         },
                         new
                         {
-                            Id = "c7046a3e-54fe-402f-987b-db2d454b3dcd",
+                            Id = "9c31f7a8-cf53-4c21-a5f7-6e446b5a6c3c",
                             ConcurrencyStamp = "3",
                             Name = "Doctor",
                             NormalizedName = "Doctor"
                         });
-                });
-
-            modelBuilder.Entity("BCI_Project.Models.RoleAttributeValue", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<Guid>("RoleAttributeId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Value")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RoleAttributeId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("RoleAttributeValue");
                 });
 
             modelBuilder.Entity("BCI_Project.Models.RoleAttributes", b =>
@@ -285,8 +237,13 @@ namespace BCI_Project.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("AttributeId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("AttributeName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AttributeValue")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -296,8 +253,6 @@ namespace BCI_Project.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AttributeId");
 
                     b.HasIndex("RoleId");
 
@@ -570,40 +525,13 @@ namespace BCI_Project.Migrations
                     b.Navigation("Game");
                 });
 
-            modelBuilder.Entity("BCI_Project.Models.RoleAttributeValue", b =>
-                {
-                    b.HasOne("BCI_Project.Models.RoleAttributes", "RoleAttributes")
-                        .WithMany("RoleAttributeValues")
-                        .HasForeignKey("RoleAttributeId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("BCI_Project.Models.User", "User")
-                        .WithMany("RoleAttributeValues")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("RoleAttributes");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("BCI_Project.Models.RoleAttributes", b =>
                 {
-                    b.HasOne("BCI_Project.Models.Attribute", "Attribute")
-                        .WithMany("RoleAttributesAttribute")
-                        .HasForeignKey("AttributeId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
                     b.HasOne("BCI_Project.Models.Role", "Role")
                         .WithMany("RoleAttributesRoles")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
-
-                    b.Navigation("Attribute");
 
                     b.Navigation("Role");
                 });
@@ -670,11 +598,6 @@ namespace BCI_Project.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("BCI_Project.Models.Attribute", b =>
-                {
-                    b.Navigation("RoleAttributesAttribute");
-                });
-
             modelBuilder.Entity("BCI_Project.Models.Game", b =>
                 {
                     b.Navigation("GameMovementsGames");
@@ -690,11 +613,6 @@ namespace BCI_Project.Migrations
                     b.Navigation("RoleAttributesRoles");
                 });
 
-            modelBuilder.Entity("BCI_Project.Models.RoleAttributes", b =>
-                {
-                    b.Navigation("RoleAttributeValues");
-                });
-
             modelBuilder.Entity("BCI_Project.Models.User", b =>
                 {
                     b.Navigation("CommentsDoctors");
@@ -706,8 +624,6 @@ namespace BCI_Project.Migrations
                     b.Navigation("DrPatientsPatients");
 
                     b.Navigation("GamePatients");
-
-                    b.Navigation("RoleAttributeValues");
 
                     b.Navigation("SignalsAdaptationPatients");
                 });

@@ -20,7 +20,7 @@ namespace BCI_Project.Controllers
         }
 
         [HttpGet(nameof(GetAllDrPatientsByDoctorId))]
-        public async Task<IActionResult> GetAllDrPatientsByDoctorId(Guid id)
+        public async Task<IActionResult> GetAllDrPatientsByDoctorId(string id)
         {
             var result = await _drpatientsservice.GetAllDrPatientsByDoctorId(id);
             return Ok(result);

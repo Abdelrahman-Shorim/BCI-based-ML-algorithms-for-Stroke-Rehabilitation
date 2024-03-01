@@ -200,6 +200,7 @@ namespace BCI_Project.Migrations
                     PatientId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     DoctorId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Message = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Sender = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -316,9 +317,9 @@ namespace BCI_Project.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "a1741d50-1f3c-4b2f-834d-1f6c2496da14", "2", "Patient", "Patient" },
-                    { "a17ee5b2-153b-45d6-963a-a8f5d6aa7973", "3", "Doctor", "Doctor" },
-                    { "bf328aaa-4e4e-4ff3-b460-11f585ca03cb", "1", "Admin", "Admin" }
+                    { "7ce5ebbe-546f-492f-a436-3d2da9b9c156", "1", "Admin", "Admin" },
+                    { "9c31f7a8-cf53-4c21-a5f7-6e446b5a6c3c", "3", "Doctor", "Doctor" },
+                    { "a867cb53-b4d4-4312-aed4-1ccae3385b8d", "2", "Patient", "Patient" }
                 });
 
             migrationBuilder.CreateIndex(

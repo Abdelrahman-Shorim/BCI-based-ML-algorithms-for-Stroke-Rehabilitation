@@ -10,6 +10,6 @@ namespace BCI_Project.Services.CommentService
         Task<Response<CommentVM>> AddComment(CommentVM comment);
         Task<Response<CommentVM>> UpdateComment(CommentVM comment);
         Task<Response<CommentVM>> DeleteComment(Guid id);
-        Task<Response<ICollection<CommentVM>>> GetAllCommentsByPatientId(Guid id);
+        Task<Response<ICollection<CommentVM>>> GetAllCommentsByPatientId(string id);
     }
 }

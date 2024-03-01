@@ -33,6 +33,21 @@ namespace BCI_Project.Repository
                 .WithMany(b => b.RoleAttributesRoles)
                 .HasForeignKey(c => c.RoleId).OnDelete(DeleteBehavior.NoAction);
 
+            modelBuilder.Entity<RoleAttributes>()
+                .HasOne(a => a.Attribute)
+                .WithMany(b => b.RoleAttributesAttribute)
+                .HasForeignKey(c => c.AttributeId).OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<RoleAttributeValue>()
+                .HasOne(a => a.RoleAttributes)
+                .WithMany(b => b.RoleAttributeValues)
+                .HasForeignKey(c => c.RoleAttributeId).OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<RoleAttributeValue>()
+                .HasOne(a => a.User)
+                .WithMany(b => b.RoleAttributeValues)
+                .HasForeignKey(c => c.UserId).OnDelete(DeleteBehavior.NoAction);
+
             modelBuilder.Entity<DrPatients>()
                 .HasOne(a => a.Patient)
                 .WithMany(b => b.DrPatientsPatients)

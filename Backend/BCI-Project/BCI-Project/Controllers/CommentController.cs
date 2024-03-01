@@ -13,7 +13,7 @@ namespace BCI_Project.Controllers
         }
 
         [HttpGet(nameof(GetAllCommentsByPatientId))]
-        public async Task<IActionResult> GetAllCommentsByPatientId(Guid id)
+        public async Task<IActionResult> GetAllCommentsByPatientId(string id)
         {
             var result = await _commentservice.GetAllCommentsByPatientId(id);
             return Ok(result);
