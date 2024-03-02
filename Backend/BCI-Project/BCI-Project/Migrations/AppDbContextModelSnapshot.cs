@@ -22,6 +22,28 @@ namespace BCI_Project.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("BCI_Project.Models.Attribute", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("AttributeName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AttributeType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Attribute");
+                });
+
             modelBuilder.Entity("BCI_Project.Models.Comments", b =>
                 {
                     b.Property<Guid>("Id")
@@ -45,6 +67,10 @@ namespace BCI_Project.Migrations
                     b.Property<string>("PatientId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Sender")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -98,11 +124,11 @@ namespace BCI_Project.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid>("GameTypeId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
-
-                    b.Property<Guid>("LevelId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("PatientId")
                         .IsRequired()
@@ -114,7 +140,7 @@ namespace BCI_Project.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("LevelId");
+                    b.HasIndex("GameTypeId");
 
                     b.HasIndex("PatientId");
 
@@ -152,7 +178,7 @@ namespace BCI_Project.Migrations
                     b.ToTable("GameMovements");
                 });
 
-            modelBuilder.Entity("BCI_Project.Models.Levels", b =>
+            modelBuilder.Entity("BCI_Project.Models.GameType", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -162,16 +188,16 @@ namespace BCI_Project.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("LevelName")
+                    b.Property<string>("GameTypeName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Levels");
+                    b.ToTable("GameType");
                 });
 
             modelBuilder.Entity("BCI_Project.Models.Role", b =>
@@ -199,6 +225,58 @@ namespace BCI_Project.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "a835837f-0213-4c9b-aa3f-6e30ffb417fa",
+                            ConcurrencyStamp = "1",
+                            Name = "Admin",
+                            NormalizedName = "Admin"
+                        },
+                        new
+                        {
+                            Id = "08b244d2-9875-4ab1-a1b7-0e1d105d98f5",
+                            ConcurrencyStamp = "2",
+                            Name = "Patient",
+                            NormalizedName = "Patient"
+                        },
+                        new
+                        {
+                            Id = "c7046a3e-54fe-402f-987b-db2d454b3dcd",
+                            ConcurrencyStamp = "3",
+                            Name = "Doctor",
+                            NormalizedName = "Doctor"
+                        });
+                });
+
+            modelBuilder.Entity("BCI_Project.Models.RoleAttributeValue", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("RoleAttributeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleAttributeId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("RoleAttributeValue");
                 });
 
             modelBuilder.Entity("BCI_Project.Models.RoleAttributes", b =>
@@ -207,13 +285,8 @@ namespace BCI_Project.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("AttributeName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("AttributeValue")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid>("AttributeId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -223,6 +296,8 @@ namespace BCI_Project.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AttributeId");
 
                     b.HasIndex("RoleId");
 
@@ -467,9 +542,9 @@ namespace BCI_Project.Migrations
 
             modelBuilder.Entity("BCI_Project.Models.Game", b =>
                 {
-                    b.HasOne("BCI_Project.Models.Levels", "Level")
-                        .WithMany("GameLevels")
-                        .HasForeignKey("LevelId")
+                    b.HasOne("BCI_Project.Models.GameType", "GameType")
+                        .WithMany("GameTypes")
+                        .HasForeignKey("GameTypeId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
@@ -479,7 +554,7 @@ namespace BCI_Project.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.Navigation("Level");
+                    b.Navigation("GameType");
 
                     b.Navigation("Patient");
                 });
@@ -495,13 +570,40 @@ namespace BCI_Project.Migrations
                     b.Navigation("Game");
                 });
 
+            modelBuilder.Entity("BCI_Project.Models.RoleAttributeValue", b =>
+                {
+                    b.HasOne("BCI_Project.Models.RoleAttributes", "RoleAttributes")
+                        .WithMany("RoleAttributeValues")
+                        .HasForeignKey("RoleAttributeId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("BCI_Project.Models.User", "User")
+                        .WithMany("RoleAttributeValues")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("RoleAttributes");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("BCI_Project.Models.RoleAttributes", b =>
                 {
+                    b.HasOne("BCI_Project.Models.Attribute", "Attribute")
+                        .WithMany("RoleAttributesAttribute")
+                        .HasForeignKey("AttributeId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
                     b.HasOne("BCI_Project.Models.Role", "Role")
                         .WithMany("RoleAttributesRoles")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
+
+                    b.Navigation("Attribute");
 
                     b.Navigation("Role");
                 });
@@ -568,19 +670,29 @@ namespace BCI_Project.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("BCI_Project.Models.Attribute", b =>
+                {
+                    b.Navigation("RoleAttributesAttribute");
+                });
+
             modelBuilder.Entity("BCI_Project.Models.Game", b =>
                 {
                     b.Navigation("GameMovementsGames");
                 });
 
-            modelBuilder.Entity("BCI_Project.Models.Levels", b =>
+            modelBuilder.Entity("BCI_Project.Models.GameType", b =>
                 {
-                    b.Navigation("GameLevels");
+                    b.Navigation("GameTypes");
                 });
 
             modelBuilder.Entity("BCI_Project.Models.Role", b =>
                 {
                     b.Navigation("RoleAttributesRoles");
+                });
+
+            modelBuilder.Entity("BCI_Project.Models.RoleAttributes", b =>
+                {
+                    b.Navigation("RoleAttributeValues");
                 });
 
             modelBuilder.Entity("BCI_Project.Models.User", b =>
@@ -594,6 +706,8 @@ namespace BCI_Project.Migrations
                     b.Navigation("DrPatientsPatients");
 
                     b.Navigation("GamePatients");
+
+                    b.Navigation("RoleAttributeValues");
 
                     b.Navigation("SignalsAdaptationPatients");
                 });

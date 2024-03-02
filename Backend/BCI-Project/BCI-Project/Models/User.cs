@@ -14,6 +14,9 @@ namespace BCI_Project.Models
 
         public ICollection<SignalsAdaptation> SignalsAdaptationPatients { get; set; }
 
+        
+        public ICollection<RoleAttributeValue> RoleAttributeValues { get; set; }
+
 
     }
 }
