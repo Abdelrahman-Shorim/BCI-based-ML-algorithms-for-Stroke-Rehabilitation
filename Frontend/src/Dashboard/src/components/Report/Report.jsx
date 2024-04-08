@@ -1,6 +1,6 @@
 import { iconsImgs } from "../../utils/images";
 import "./Report.css";
-import { reportData } from "../../data/data";
+import { reportData } from "../../data/dataPatient";
 
 const Report = () => {
   const months = ["Jan", "Feb", "Mar", "Apr", "May"];

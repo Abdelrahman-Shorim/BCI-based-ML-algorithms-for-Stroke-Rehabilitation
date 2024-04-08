@@ -1,0 +1,7 @@
+&:hover{ backgroundColor: 'white'} 
+.ImgeandTitle{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-right:10px ;
+}

@@ -1,16 +1,19 @@
-import './dashboard.css';
-import Sidebar from './layout/Sidebar/Sidebar';
-import Content from './layout/Content/Content';
+import "./dashboard.css";
+import Sidebar from "./layout/Sidebar/Sidebar";
+import Content from "./layout/Content/Content";
 
-function App() {
-  return (
-    <>
-      <div className='app'>
-        <Sidebar />
-        <Content />
-      </div>
-    </>
-  )
+function App({ role }) {
+
+    return (
+ 
+        <div className="app">
+          <Sidebar role={role} />
+          <Content role={role} />
+        </div>
+     
+    );
+ 
+ 
 }
 
-export default App
+export default App;

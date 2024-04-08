@@ -1,6 +1,6 @@
 import "./Budget.css";
 import { iconsImgs } from "../../utils/images";
-import { budget } from "../../data/data";
+import { budget } from "../../data/dataPatient";
 
 const comments = [
   "There is a significant progress in the right hand functionality",
