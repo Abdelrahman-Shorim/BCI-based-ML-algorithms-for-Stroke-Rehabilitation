@@ -1,0 +1,21 @@
+/* Financial.css */
+
+.grid-c8-content {
+  display: flex;
+  flex-direction: column; /* Stack buttons vertically */
+}
+
+.text-button {
+  background-color: white; /* White background */
+  border: none;
+  color: #000000; /* Set text color to black */
+  cursor: pointer;
+  font-size: inherit;
+  padding: 10px; /* Add some padding for better appearance */
+  text-decoration: none; /* Remove underlines */
+  text-align: left; /* Align text to the left */
+}
+
+.text-button:hover {
+  background-color: #f0f0f0; /* Change background color on hover */
+}
