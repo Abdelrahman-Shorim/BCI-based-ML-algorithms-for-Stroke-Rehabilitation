@@ -1,0 +1,37 @@
+.animateleft {
+    animation: slideInLeft linear forwards;
+    animation-timeline: view();
+    animation-range: entry 10px;
+}
+
+@keyframes slideInLeft {
+    0% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    70% {
+        opacity: 0.7;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.animateFade {
+    animation: Fade linear 3s;
+    animation-timeline: view();
+    animation-range: entry 10px;
+}
+
+@keyframes Fade {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
