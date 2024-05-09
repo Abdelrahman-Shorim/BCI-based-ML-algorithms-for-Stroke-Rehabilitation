@@ -1,11 +1,14 @@
 using BCI_Project.Models;
 using BCI_Project.Repository;
 using BCI_Project.Repository.Repo;
+using BCI_Project.Services.AttributeService;
 using BCI_Project.Services.CommentService;
 using BCI_Project.Services.DrPatientsService;
 using BCI_Project.Services.GameMovementService;
 using BCI_Project.Services.GameService;
 using BCI_Project.Services.GameTypeService;
+using BCI_Project.Services.RoleAttributesService;
+using BCI_Project.Services.RoleAttributeValueService;
 using BCI_Project.Services.SignalsAdaptaionService;
 using BCI_Project.Services.UserService;
 using BCI_Project.UnitOfWork;
@@ -33,6 +36,9 @@ builder.Services.AddScoped<IGameMovementService,GameMovementService>();
 builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddScoped<IDrPatientsService, DrPatientsService>();
 builder.Services.AddScoped<ISignalAdaptationService, SignalAdaptationService>();
+builder.Services.AddScoped<IAttributeService, AttributeService>();
+builder.Services.AddScoped<IRoleAttributeService, RoleAttributeService>();
+builder.Services.AddScoped<IRoleAttributeValueService, RoleAttributeValueService>();
 
 
 
@@ -42,7 +48,12 @@ builder.Services.AddScoped<ISignalAdaptationService, SignalAdaptationService>();
 
 
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString") ?? throw new InvalidOperationException("Connection string 'dbContext' not found.")));
-builder.Services.AddIdentity<User, Role>(options => { options.Password.RequiredLength = 1; options.SignIn.RequireConfirmedEmail = false;  }).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
+builder.Services.AddIdentity<User, Role>(options => 
+{ options.Password.RequiredLength = 1; options.SignIn.RequireConfirmedEmail = false;  
+}
+).AddEntityFrameworkStores<AppDbContext>()
+.AddDefaultTokenProviders()
+.AddRoleManager<RoleManager<Role>>();
 
 builder.Services.AddAuthentication(auth =>
 {

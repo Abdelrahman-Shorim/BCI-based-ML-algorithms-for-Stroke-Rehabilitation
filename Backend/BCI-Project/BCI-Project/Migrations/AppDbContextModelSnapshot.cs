@@ -22,7 +22,7 @@ namespace BCI_Project.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("BCI_Project.Models.Attribute", b =>
+            modelBuilder.Entity("BCI_Project.Models.Attributes", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -41,7 +41,7 @@ namespace BCI_Project.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Attribute");
+                    b.ToTable("Attributes");
                 });
 
             modelBuilder.Entity("BCI_Project.Models.Comments", b =>
@@ -229,21 +229,21 @@ namespace BCI_Project.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "a835837f-0213-4c9b-aa3f-6e30ffb417fa",
+                            Id = "6ccd6523-5670-41d7-842f-d7bc4056b573",
                             ConcurrencyStamp = "1",
                             Name = "Admin",
                             NormalizedName = "Admin"
                         },
                         new
                         {
-                            Id = "08b244d2-9875-4ab1-a1b7-0e1d105d98f5",
+                            Id = "42fcca9d-313c-4306-af6d-16629e9fc71d",
                             ConcurrencyStamp = "2",
                             Name = "Patient",
                             NormalizedName = "Patient"
                         },
                         new
                         {
-                            Id = "c7046a3e-54fe-402f-987b-db2d454b3dcd",
+                            Id = "a8c2f9e6-b977-484e-83fb-3e37fbe49e38",
                             ConcurrencyStamp = "3",
                             Name = "Doctor",
                             NormalizedName = "Doctor"
@@ -591,7 +591,7 @@ namespace BCI_Project.Migrations
 
             modelBuilder.Entity("BCI_Project.Models.RoleAttributes", b =>
                 {
-                    b.HasOne("BCI_Project.Models.Attribute", "Attribute")
+                    b.HasOne("BCI_Project.Models.Attributes", "Attribute")
                         .WithMany("RoleAttributesAttribute")
                         .HasForeignKey("AttributeId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -670,7 +670,7 @@ namespace BCI_Project.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("BCI_Project.Models.Attribute", b =>
+            modelBuilder.Entity("BCI_Project.Models.Attributes", b =>
                 {
                     b.Navigation("RoleAttributesAttribute");
                 });

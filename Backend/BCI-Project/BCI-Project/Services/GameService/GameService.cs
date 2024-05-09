@@ -43,6 +43,37 @@ namespace BCI_Project.Services.GameService
                 Data=games
             };
         }
+        public async Task<Response<ICollection<GameVM>>> GetAllGamesByPatientId(string patientId)
+        {
+            var games = _unitofwork.Game.GetAll().Select(a => new GameVM()
+            {
+                Id = a.Id,
+                PatientId = a.PatientId,
+                GameTypeId = a.GameTypeId,
+                Score = a.Score,
+                Duration = a.Duration,
+                Accuracy = a.Accuracy,
+                Date = a.Date,
+                //Name = a.Name
+            }).Where(a=> a.PatientId==patientId)
+                .ToList();
+
+            if (games == null || games.Count() <= 0)
+            {
+                return new Response<ICollection<GameVM>>()
+                {
+                    Message = "No Game Items",
+                    IsSuccess = true
+                };
+            }
+
+            return new Response<ICollection<GameVM>>()
+            {
+                Message = "These are the Game Items",
+                IsSuccess = true,
+                Data = games
+            };
+        }
         public async Task<Response<GameVM>> GetGameById(Guid id)
         {
             var game= _unitofwork.Game.GetById(id);

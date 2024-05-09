@@ -1,6 +1,6 @@
 ﻿namespace BCI_Project.Models
 {
-    public class Attribute : BaseModel
+    public class Attributes : BaseModel
     {
         public string AttributeName { get; set; }
         public string AttributeType { get; set; }

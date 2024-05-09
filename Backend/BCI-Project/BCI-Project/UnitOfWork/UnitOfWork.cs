@@ -22,7 +22,9 @@ namespace BCI_Project.UnitOfWork
         public IRepository<Comments> Comment { get; private set; }
         public IRepository<DrPatients> DrPatients { get; private set; }
         public IRepository<SignalsAdaptation> SignalsAdaptation { get; private set; }
-
+        public IRepository<Attributes> Attributes { get; private set; }
+        public IRepository<RoleAttributes> RoleAttributes { get; private set; }
+        public IRepository<RoleAttributeValue> RoleAttributeValue { get; private set; }
         public UnitOfWork(AppDbContext context)
         {
             _context = context;
@@ -32,6 +34,10 @@ namespace BCI_Project.UnitOfWork
             Comment = new Repository<Comments>(_context);
             DrPatients = new Repository<DrPatients>(_context);
             SignalsAdaptation = new Repository<SignalsAdaptation>(_context);
+            Attributes = new Repository<Attributes>(_context);
+            RoleAttributes = new Repository<RoleAttributes>(_context);
+            RoleAttributeValue = new Repository<RoleAttributeValue>(_context);
+
         }
 
         public void Dispose()
