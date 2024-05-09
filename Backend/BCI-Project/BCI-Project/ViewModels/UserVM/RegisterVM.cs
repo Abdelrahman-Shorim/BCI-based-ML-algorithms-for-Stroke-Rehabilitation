@@ -12,7 +12,12 @@ namespace BCI_Project.ViewModels.UserVM
         [StringLength(50, MinimumLength = 5)]
         public string Password { get; set; }
         [Required]
-        [StringLength(50, MinimumLength = 5)]
-        public string ConfirmPassword { get; set; }
+        public int Age { get; set; }
+        [Required]
+        public string PhoneNumber { get; set; }
+        [Required]
+        public String Gender { get; set; }
+        [Required]
+        public string PatientHistory { get; set; }
     }
 }

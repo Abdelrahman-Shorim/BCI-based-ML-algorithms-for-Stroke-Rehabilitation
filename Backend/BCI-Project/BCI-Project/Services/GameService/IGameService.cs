@@ -7,6 +7,7 @@ namespace BCI_Project.Services.GameService
     public interface IGameService
     {
         Task<Response<ICollection<GameVM>>> GetAllGames();
+        Task<Response<ICollection<GameVM>>> GetAllGamesByPatientId(string patientId);
         Task<Response<GameVM>> GetGameById(Guid id);
         Task<Response<GameVM>> AddGame(GameVM game,string userid);
         Task<Response<GameVM>> UpdateGame(GameVM game);

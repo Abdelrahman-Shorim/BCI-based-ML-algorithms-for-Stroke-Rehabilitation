@@ -23,6 +23,13 @@ namespace BCI_Project.Controllers
             return Ok(result);
         }
 
+        [HttpGet(nameof(GetAllGamesByPatientId))]
+        public async Task<IActionResult> GetAllGamesByPatientId(string patientId)
+        {
+            var result = await _gameservice.GetAllGamesByPatientId(patientId);
+            return Ok(result);
+        }
+
         [HttpGet(nameof(GetGameById))]
         public async Task<IActionResult> GetGameById(Guid id)
         {

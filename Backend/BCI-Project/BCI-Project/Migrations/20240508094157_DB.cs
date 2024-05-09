@@ -53,6 +53,20 @@ namespace BCI_Project.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Attributes",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    AttributeName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AttributeType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Attributes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "GameType",
                 columns: table => new
                 {
@@ -85,26 +99,6 @@ namespace BCI_Project.Migrations
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "RoleAttributes",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    AttributeName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AttributeValue = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_RoleAttributes", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_RoleAttributes_AspNetRoles_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "AspNetRoles",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -264,6 +258,30 @@ namespace BCI_Project.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "RoleAttributes",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    AttributeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RoleAttributes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_RoleAttributes_AspNetRoles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "AspNetRoles",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_RoleAttributes_Attributes_AttributeId",
+                        column: x => x.AttributeId,
+                        principalTable: "Attributes",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Game",
                 columns: table => new
                 {
@@ -288,6 +306,31 @@ namespace BCI_Project.Migrations
                         name: "FK_Game_GameType_GameTypeId",
                         column: x => x.GameTypeId,
                         principalTable: "GameType",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RoleAttributeValue",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RoleAttributeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Value = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RoleAttributeValue", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_RoleAttributeValue_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_RoleAttributeValue_RoleAttributes_RoleAttributeId",
+                        column: x => x.RoleAttributeId,
+                        principalTable: "RoleAttributes",
                         principalColumn: "Id");
                 });
 
@@ -317,9 +360,9 @@ namespace BCI_Project.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "7ce5ebbe-546f-492f-a436-3d2da9b9c156", "1", "Admin", "Admin" },
-                    { "9c31f7a8-cf53-4c21-a5f7-6e446b5a6c3c", "3", "Doctor", "Doctor" },
-                    { "a867cb53-b4d4-4312-aed4-1ccae3385b8d", "2", "Patient", "Patient" }
+                    { "42fcca9d-313c-4306-af6d-16629e9fc71d", "2", "Patient", "Patient" },
+                    { "6ccd6523-5670-41d7-842f-d7bc4056b573", "1", "Admin", "Admin" },
+                    { "a8c2f9e6-b977-484e-83fb-3e37fbe49e38", "3", "Doctor", "Doctor" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -397,9 +440,24 @@ namespace BCI_Project.Migrations
                 column: "GameId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_RoleAttributes_AttributeId",
+                table: "RoleAttributes",
+                column: "AttributeId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_RoleAttributes_RoleId",
                 table: "RoleAttributes",
                 column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RoleAttributeValue_RoleAttributeId",
+                table: "RoleAttributeValue",
+                column: "RoleAttributeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RoleAttributeValue_UserId",
+                table: "RoleAttributeValue",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SignalsAdaptation_PatientId",
@@ -435,7 +493,7 @@ namespace BCI_Project.Migrations
                 name: "GameMovements");
 
             migrationBuilder.DropTable(
-                name: "RoleAttributes");
+                name: "RoleAttributeValue");
 
             migrationBuilder.DropTable(
                 name: "SignalsAdaptation");
@@ -444,13 +502,19 @@ namespace BCI_Project.Migrations
                 name: "Game");
 
             migrationBuilder.DropTable(
-                name: "AspNetRoles");
+                name: "RoleAttributes");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "GameType");
+
+            migrationBuilder.DropTable(
+                name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Attributes");
         }
     }
 }

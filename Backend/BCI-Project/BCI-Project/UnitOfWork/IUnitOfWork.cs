@@ -12,6 +12,10 @@ namespace BCI_Project.UnitOfWork
         IRepository<Comments> Comment { get; }
         IRepository<DrPatients> DrPatients { get; }
         IRepository<SignalsAdaptation> SignalsAdaptation { get; }
+        IRepository<Attributes> Attributes { get; }
+
+        IRepository<RoleAttributes> RoleAttributes { get; }
+        IRepository<RoleAttributeValue> RoleAttributeValue { get; }
 
 
         int Save();

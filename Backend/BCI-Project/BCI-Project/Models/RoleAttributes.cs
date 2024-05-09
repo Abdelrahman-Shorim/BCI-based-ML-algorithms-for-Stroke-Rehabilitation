@@ -6,7 +6,7 @@
         public Guid AttributeId { get; set; }
 
         public Role Role { get; set; }
-        public Attribute Attribute { get; set; }
+        public Attributes Attribute { get; set; }
         public ICollection<RoleAttributeValue> RoleAttributeValues { get; set; }
 
     }

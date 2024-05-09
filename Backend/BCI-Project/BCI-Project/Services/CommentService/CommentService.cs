@@ -176,7 +176,7 @@ namespace BCI_Project.Services.CommentService
                 Message = a.Message,
                 Sender = a.Sender,
                 Date = a.Date,
-            }).Where(b=>b.PatientId==id) .ToList();
+            }).Where(b=>b.PatientId==id).OrderBy(a=>a.Date) .ToList();
 
             if (comments == null || comments.Count() <= 0)
             {
