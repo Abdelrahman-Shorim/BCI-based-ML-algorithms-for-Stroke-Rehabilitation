@@ -11,6 +11,7 @@ namespace BCI_Project.Services.DrPatientsService
         Task<Response<DrPatientsVM>> UpdateDrPatients(DrPatientsVM drpatients);
         Task<Response<DrPatientsVM>> DeleteDrPatients(Guid id);
         Task<Response<ICollection<DrPatientsVM>>> GetAllDrPatientsByDoctorId(string id);
+        Task<Response<DrPatientsVM>> GetPatientDoctorByPatientId(string patientid);
 
     }
 }

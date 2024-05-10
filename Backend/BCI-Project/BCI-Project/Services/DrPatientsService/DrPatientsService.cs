@@ -179,5 +179,31 @@ namespace BCI_Project.Services.DrPatientsService
                 Data = drpatients
             };
         }
+        public async Task<Response<DrPatientsVM>> GetPatientDoctorByPatientId(string patientid)
+        {
+            var drpatients = _unitofwork.DrPatients.GetAll().Select(a => new DrPatientsVM()
+            {
+                Id = a.Id,
+                PatientId = a.PatientId,
+                DoctorId = a.DoctorId,
+            }).Where(a=>a.PatientId==patientid)
+                .ToList();
+
+            if (drpatients == null || drpatients.Count() <= 0)
+            {
+                return new Response<DrPatientsVM>()
+                {
+                    Message = "No assighned patient Items",
+                    IsSuccess = true
+                };
+            }
+
+            return new Response<DrPatientsVM>()
+            {
+                Message = "These are the DrPatients Items",
+                IsSuccess = true,
+                Data = drpatients.First()
+            };
+        }
     }
 }

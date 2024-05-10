@@ -1,9 +1,11 @@
 ﻿using BCI_Project.Services.SignalsAdaptaionService;
 using BCI_Project.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BCI_Project.Controllers
 {
+    [AllowAnonymous]
     public class SignalAdaptaionController : Controller
     {
         private readonly ISignalAdaptationService _signalsadaptation;

@@ -1,9 +1,11 @@
 ﻿using BCI_Project.Services.DrPatientsService;
 using BCI_Project.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BCI_Project.Controllers
 {
+    [AllowAnonymous]
     public class DrPatientsController : Controller
     {
         private readonly IDrPatientsService _drpatientsservice;
@@ -30,6 +32,13 @@ namespace BCI_Project.Controllers
         public async Task<IActionResult> GetDrPatientsById(Guid id)
         {
             var result = await _drpatientsservice.GetDrPatientsById(id);
+            return Ok(result);
+        }
+
+        [HttpGet(nameof(GetPatientDoctorByPatientId))]
+        public async Task<IActionResult> GetPatientDoctorByPatientId(string patientid)
+        {
+            var result = await _drpatientsservice.GetPatientDoctorByPatientId(patientid);
             return Ok(result);
         }
 

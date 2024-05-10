@@ -1,10 +1,12 @@
 ﻿using BCI_Project.Models;
 using BCI_Project.Services.GameTypeService;
 using BCI_Project.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BCI_Project.Controllers
 {
+    [AllowAnonymous]
     public class GameTypeController : Controller
     {
         private readonly IGameTypeService _gametypeservice;

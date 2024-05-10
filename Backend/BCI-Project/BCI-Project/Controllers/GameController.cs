@@ -7,7 +7,7 @@ using System.Security.Claims;
 
 namespace BCI_Project.Controllers
 {
-    //[Authorize]
+    [AllowAnonymous]
     public class GameController : Controller
     {
         private readonly IGameService _gameservice;

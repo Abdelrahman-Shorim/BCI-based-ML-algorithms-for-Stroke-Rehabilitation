@@ -11,6 +11,7 @@ using BCI_Project.ViewModels;
 using BCI_Project.ViewModels.UserVM;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
+using System.ComponentModel;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -56,7 +57,7 @@ namespace BCI_Project.Services.UserService
         }
 
 
-        public async Task<Response<Object>> AddDoctor(RegisterVM user)
+        public async Task<Response<Object>> AddDoctor(RegisterDoctor user)
         {
             if (user == null)
                 return new Response<Object>()
@@ -77,13 +78,13 @@ namespace BCI_Project.Services.UserService
             {
                 Email = user.Email,
                 UserName = user.Name,
+                 
                 //EmailConfirmed = true,
-                PhoneNumber = user.PhoneNumber,
             };
             var result = await _userManager.CreateAsync(identityuser, user.Password);
             if (result.Succeeded)
             {
-                var result2 = await _userManager.AddToRoleAsync(identityuser, "Admin");
+                var result2 = await _userManager.AddToRoleAsync(identityuser, "Doctor");
                 if (result2.Succeeded)
                 {
                    
@@ -321,15 +322,55 @@ namespace BCI_Project.Services.UserService
         public async Task<Response<PatientVM>> GetPatientDetails(string patientid)
         {
             PatientVM patientdata = new PatientVM();
+            patientdata.PatientAttributes = new Dictionary<string, string>();
             var roleattributevalues = await _roleattributevalueservice.GetAllRoleAttributeValuesByUserId(patientid);
 
+            if (roleattributevalues.Data == null)
+            {
+                return new Response<PatientVM>()
+                {
+                    Message = "No attributes for this user role",
+                    IsSuccess = false,
+                };
+            }
             foreach (var roleattributevalue in roleattributevalues.Data)
             {
-                var roleattribute = await _roleattributeservice.GetRoleAttributesById(roleattributevalue.Id);
-                if (roleattribute == null) return null;
+                var roleattribute = await _roleattributeservice.GetRoleAttributesById(roleattributevalue.RoleAttributeId);
+                if (roleattribute.Data == null) 
+                {
+                    return new Response<PatientVM>()
+                    {
+                        Message = "Error getting role attribute",
+                        IsSuccess = false,
+                    };
+                }
                 var attribute = await _attributeservice.GetAttributeById(roleattribute.Data.AttributeId);
-                patientdata.PatientAttributes[attribute.Data.AttributeName] = roleattributevalue.Value;
+                if (attribute.Data == null)
+                {
+                    return new Response<PatientVM>()
+                    {
+                        Message = "Error getting the attribute",
+                        IsSuccess = false,
+                    };
+                }
+                patientdata.PatientAttributes.Add(attribute.Data.AttributeName, roleattributevalue.Value);
+                //patientdata.PatientAttributes[attribute.Data.AttributeName] = roleattributevalue.Value;
             }
+            var assignedDoctor = await _drpatientsservice.GetPatientDoctorByPatientId(patientid);
+            if(assignedDoctor != null && assignedDoctor.Data != null)
+            {
+                patientdata.AssignedDrId = assignedDoctor.Data.DoctorId;
+                var drdata = await _userManager.FindByIdAsync(assignedDoctor.Data.DoctorId);
+                if(drdata != null)
+                {
+                    patientdata.AssignedDrName = drdata.UserName;
+                }
+            }
+            patientdata.Id = patientid;
+            var user =await _userManager.FindByIdAsync(patientid);
+            patientdata.Email = user.Email;
+            patientdata.Phone = user.PhoneNumber;
+            patientdata.Name = user.UserName;
             return new Response<PatientVM>()
             {
                 Message = "This is the Patient Data",
@@ -346,18 +387,30 @@ namespace BCI_Project.Services.UserService
             {
                 return new Response<List<PatientVM>>()
                 {
-                    Message = "Error getting dr data",
+                    Message = "No dr with this id",
                     IsSuccess = false,
                 };
             }
 
             var drpatientslist= await _drpatientsservice.GetAllDrPatientsByDoctorId(user.Id);
 
+            if (drpatientslist.Data == null)
+            {
+                return new Response<List<PatientVM>>()
+                {
+                    Message = "No Patients for this doctor",
+                    IsSuccess = false,
+                };
+            }
+
             foreach (var drpatient in drpatientslist.Data)
             {
                 var patient = await GetPatientDetails(drpatient.PatientId);
 
-                patientslist.Add(patient.Data);
+                if(patient.Data!=null)
+                {
+                    patientslist.Add(patient.Data);
+                }
             }
 
             return new Response<List<PatientVM>> ()
@@ -368,24 +421,39 @@ namespace BCI_Project.Services.UserService
             };
 
         }
+
+        public async Task<int> GetDoctorPatientNumbers(string drid)
+        {
+            var data=await  _drpatientsservice.GetAllDrPatientsByDoctorId(drid);
+            return data.Data.Count();
+
+        }
         public async Task<Response<List<DoctorVM>>> GetAllDoctors()
         {
             List<DoctorVM> doctorslist = [];
             var doctors = _userManager.Users.ToList();
+
+            if (doctors.Count() == 0)
+            {
+                return new Response<List<DoctorVM>>()
+                {
+                    Message = "There are no users in the system",
+                    IsSuccess = true,
+                };
+            }
 
             foreach (var user in doctors)
             {
                 var isDoctor = await _userManager.IsInRoleAsync(user, "Doctor");
                 if (isDoctor==true)
                 {
-                    var numofpatients = await GetDoctorPatients(user.Id);
-
-                    doctorslist.Add(new DoctorVM
-                    {
-                        Id = user.Id,
-                        Name = user.UserName,
-                        NumOfPatients = numofpatients.Data.Count()
-                    });
+                    var numofpatients = await GetDoctorPatientNumbers(user.Id);
+                        doctorslist.Add(new DoctorVM
+                        {
+                            Id = user.Id,
+                            Name = user.UserName,
+                            NumOfPatients = numofpatients
+                        });
                 }
             }
             return new Response<List<DoctorVM>>()

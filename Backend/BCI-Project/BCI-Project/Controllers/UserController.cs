@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BCI_Project.Controllers
 {
+    [AllowAnonymous]
     public class UserController : Controller
     {
         private readonly IUserService _userservice;
@@ -74,7 +75,7 @@ namespace BCI_Project.Controllers
         }
         [HttpPost(nameof(AddDoctor))]
         [AllowAnonymous]
-        public async Task<IActionResult> AddDoctor(RegisterVM user)
+        public async Task<IActionResult> AddDoctor([FromBody] RegisterDoctor user)
         {
             var result = await _userservice.AddDoctor(user);
             return Ok(result);
