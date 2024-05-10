@@ -46,6 +46,30 @@ namespace BCI_Project.Controllers
             return Ok(result);
         }
 
+
+      
+        [HttpGet(nameof(GetDoctorPatients))]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetDoctorPatients(string doctorid)
+        {
+            var result = await _userservice.GetDoctorPatients(doctorid);
+            return Ok(result);
+        }
+        [HttpGet(nameof(GetPatientDetails))]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetPatientDetails(string patientid)
+        {
+            var result = await _userservice.GetPatientDetails( patientid);
+            return Ok(result);
+        }
+        [HttpPost(nameof(AddDoctor))]
+        [AllowAnonymous]
+        public async Task<IActionResult> AddDoctor(RegisterVM user)
+        {
+            var result = await _userservice.AddDoctor(user);
+            return Ok(result);
+        }
+
         //[HttpPost(nameof(AddAttribute))]
         //[AllowAnonymous]
         //public async Task<IActionResult> AddAttribute([FromBody] AttributeVM attribute)
