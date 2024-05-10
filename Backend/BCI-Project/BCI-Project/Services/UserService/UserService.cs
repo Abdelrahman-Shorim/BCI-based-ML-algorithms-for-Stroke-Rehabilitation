@@ -452,7 +452,10 @@ namespace BCI_Project.Services.UserService
                         {
                             Id = user.Id,
                             Name = user.UserName,
-                            NumOfPatients = numofpatients
+                            NumOfPatients = numofpatients,
+                            phonenumber=user.PhoneNumber,
+                            Email=user.Email
+                            
                         });
                 }
             }
@@ -461,6 +464,102 @@ namespace BCI_Project.Services.UserService
                 Message = "These are the list of doctors",
                 IsSuccess = true,
                 Data= doctorslist
+            };
+        }
+
+        public async Task<Response<List<PatientVM>>> GetAllPatients() 
+        {
+            List<PatientVM> patientslist = [];
+            var allusers = _userManager.Users.ToList();
+
+            if (allusers.Count() == 0)
+            {
+                return new Response<List<PatientVM>>()
+                {
+                    Message = "There are no users in the system",
+                    IsSuccess = true,
+                };
+            }
+
+            foreach (var user in allusers)
+            {
+                var isPatient = await _userManager.IsInRoleAsync(user, "Patient");
+                if (isPatient == true)
+                {
+                    var patientdetails = await GetPatientDetails(user.Id);
+                    if(patientdetails != null && patientdetails.Data!=null)
+                        patientslist.Add(patientdetails.Data);
+                }
+            }
+            return new Response<List<PatientVM>>()
+            {
+                Message = "These are the list of patients",
+                IsSuccess = true,
+                Data = patientslist
+            };
+        }
+        public async Task<Response<List<PatientVM>>> GetUnAssignedPatients() 
+        {
+            List<PatientVM> patientslist = [];
+            var allpatients = await GetAllPatients();
+
+            if(allpatients==null || allpatients.Data==null)
+            {
+                return new Response<List<PatientVM>>()
+                {
+                    Message = "there are no patients in the system",
+                    IsSuccess = true,
+                    //Data = patientslist
+                };
+            }
+            foreach (var patient in allpatients.Data)
+            {
+                if (patient.AssignedDrId != null && patient.AssignedDrName != null)
+                    continue;
+                patientslist.Add(patient);
+
+            }
+            return new Response<List<PatientVM>>()
+            {
+                Message = "These are the list of unassigned patients",
+                IsSuccess = true,
+                Data = patientslist
+            };
+        }
+        public async Task<Response<DoctorVM>> GetDoctorOrAdminProfile(string uid)
+        {
+            var user = await _userManager.FindByIdAsync(uid);
+            var isAdmin = await _userManager.IsInRoleAsync(user, "Admin");
+            var isDoctor = await _userManager.IsInRoleAsync(user, "Doctor");
+            if (user == null)
+            {
+                return new Response<DoctorVM>()
+                {
+                    Message = "No user with this id",
+                    IsSuccess = true,
+                };
+            }
+            if (isAdmin==false && isDoctor==false)
+            {
+                return new Response<DoctorVM>()
+                {
+                    Message = "the user is not an admin or a doctor",
+                    IsSuccess = true,
+                };
+            }
+            var numofpatients = await GetDoctorPatientNumbers(user.Id);
+            return new Response<DoctorVM>()
+            {
+                Message = "The user data is here",
+                IsSuccess = true,
+                Data= new DoctorVM()
+                {
+                    Id = uid,
+                    Name= user.UserName,
+                    phonenumber= user.PhoneNumber,
+                    Email=user.Email,
+                    NumOfPatients= numofpatients
+                }
             };
         }
     }

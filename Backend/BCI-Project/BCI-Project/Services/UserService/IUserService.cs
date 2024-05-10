@@ -13,8 +13,14 @@ namespace BCI_Project.Services.UserService
         Task<Response<List<PatientVM>>> GetDoctorPatients(string doctorid);
         Task<Response<List<DoctorVM>>> GetAllDoctors();
         Task<Response<PatientVM>> GetPatientDetails(string patientid);
-
         Task<Response<Object>> AddDoctor(RegisterDoctor user);
+
+
+        Task<Response<List<PatientVM>>> GetAllPatients();
+        Task<Response<List<PatientVM>>> GetUnAssignedPatients();
+        Task<Response<DoctorVM>> GetDoctorOrAdminProfile(string uid);
+
+
 
     }
 }
