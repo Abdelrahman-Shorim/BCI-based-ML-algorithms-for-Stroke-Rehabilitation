@@ -2,15 +2,15 @@ import mne
 from mne.preprocessing import ICA
 import visualization
 
-def pre_processing(raw, l_freq=0.5, h_freq=100, freqs=50, n_components=22, random_state=64, method='picard', event_id=[7, 8, 9, 10], tmin=-0.1, tmax=0.7, baseline=(-0.1, 0), log=None):
+def pre_processing(raw, l_freq=0.5, h_freq=100, freqs=50, n_components=22, random_state=64, method='picard', event_id=[7, 8, 9, 10], tmin=-0.1, tmax=0.7, baseline=(-0.1, 0), log=None, duration=3, start=0):
     print("Raw Data")
-    visualization.plot_raw(raw, duration=3, start=1691.5)
+    visualization.plot_raw(raw, duration=duration, start=start)
     visualization.plot_psd(raw)
 
     print("Filtered Data")
     raw_fil = raw.copy().filter(l_freq, h_freq, fir_design='firwin', skip_by_annotation='edge', verbose=log)
     raw_fil = raw_fil.notch_filter(freqs=freqs, verbose=log)
-    visualization.plot_raw(raw_fil, duration=3, start=1691.5)
+    visualization.plot_raw(raw_fil, duration=duration, start=start)
     visualization.plot_psd(raw_fil)
 
     ica = ICA(n_components=n_components, random_state=random_state, max_iter=800, verbose=log)
@@ -24,7 +24,7 @@ def pre_processing(raw, l_freq=0.5, h_freq=100, freqs=50, n_components=22, rando
     ica.apply(raw_fil, verbose=log)
     raw_fil.drop_channels(['EOG-left', 'EOG-central', 'EOG-right'])
     print("ICA")
-    visualization.plot_raw(raw_fil, duration=3, start=1691.5)
+    visualization.plot_raw(raw_fil, duration=duration, start=start)
     visualization.plot_psd(raw_fil)
 
     events, event_id_map = mne.events_from_annotations(raw)
