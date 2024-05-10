@@ -208,6 +208,14 @@ namespace BCI_Project.Services.UserService
                     Message = "Invalid password",
                     IsSuccess = false,
                 };
+            var userRoles = await _userManager.GetRolesAsync(user);
+            if(userRoles == null)
+                return new Response<object>
+                {
+                    Message = "No roles for this user",
+                    IsSuccess = false
+                    //ExpireDate = token.ValidTo
+                };
 
             var claims = new List<Claim>
             {
@@ -221,7 +229,10 @@ namespace BCI_Project.Services.UserService
             {
                 claims.Add(new Claim(ClaimTypes.Role, role.ToString()));
             }*/
-
+            foreach (var role in userRoles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["AuthSettings:Key"]));
 
