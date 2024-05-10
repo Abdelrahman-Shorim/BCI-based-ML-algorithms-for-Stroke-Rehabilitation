@@ -102,6 +102,51 @@ namespace BCI_Project.Services.UserService
                 Errors = result.Errors.Select(e => e.Description).ToList()
             };
         }
+        public async Task<Response<Object>> AddAdmin(RegisterDoctor user)
+        {
+            if (user == null)
+                return new Response<Object>()
+                {
+                    Message = "User is Null",
+                    IsSuccess = false,
+                };
+
+            var userExist = await _userManager.FindByEmailAsync(user.Email);
+            if (userExist != null)
+                return new Response<object>()
+                {
+                    Message = "Email Already Registered",
+                    IsSuccess = false
+                };
+
+            var identityuser = new User
+            {
+                Email = user.Email,
+                UserName = user.Name,
+
+                //EmailConfirmed = true,
+            };
+            var result = await _userManager.CreateAsync(identityuser, user.Password);
+            if (result.Succeeded)
+            {
+                var result2 = await _userManager.AddToRoleAsync(identityuser, "Admin");
+                if (result2.Succeeded)
+                {
+
+                    return new Response<Object>()
+                    {
+                        Message = "User Created Succesfully",
+                        IsSuccess = true,
+                    };
+                }
+            }
+            return new Response<Object>()
+            {
+                Message = "Error While creating user",
+                IsSuccess = false,
+                Errors = result.Errors.Select(e => e.Description).ToList()
+            };
+        }
         public async Task<Response<Object>> RegisterUserAsync(RegisterVM user)
         {
 

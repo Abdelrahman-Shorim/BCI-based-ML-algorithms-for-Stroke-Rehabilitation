@@ -103,6 +103,13 @@ namespace BCI_Project.Controllers
             var result = await _userservice.AddDoctor(user);
             return Ok(result);
         }
+        [HttpPost(nameof(AddAdmin))]
+        [AllowAnonymous]
+        public async Task<IActionResult> AddAdmin([FromBody] RegisterDoctor user)
+        {
+            var result = await _userservice.AddAdmin(user);
+            return Ok(result);
+        }
 
         //[HttpPost(nameof(AddAttribute))]
         //[AllowAnonymous]
