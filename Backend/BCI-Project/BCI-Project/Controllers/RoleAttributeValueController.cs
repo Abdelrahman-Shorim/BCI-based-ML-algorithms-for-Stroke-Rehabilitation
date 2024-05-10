@@ -21,6 +21,13 @@ namespace BCI_Project.Controllers
             return Ok(result);
         }
 
+        [HttpGet(nameof(GetAllRoleAttributeValuesByUserId))]
+        public async Task<IActionResult> GetAllRoleAttributeValuesByUserId(string userid)
+        {
+            var result = await _roleattributevalueservice.GetAllRoleAttributeValuesByUserId(userid);
+            return Ok(result);
+        }
+
         [HttpGet(nameof(GetRoleAttributeValueById))]
         public async Task<IActionResult> GetRoleAttributeValueById(Guid id)
         {

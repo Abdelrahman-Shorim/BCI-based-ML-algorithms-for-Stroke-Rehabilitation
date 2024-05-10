@@ -12,6 +12,14 @@ namespace BCI_Project.Controllers
             _commentservice = commentservice;
         }
 
+
+        [HttpGet(nameof(GetAllComments))]
+        public async Task<IActionResult> GetAllComments()
+        {
+            var result = await _commentservice.GetAllComments();
+            return Ok(result);
+        }
+
         [HttpGet(nameof(GetAllCommentsByPatientId))]
         public async Task<IActionResult> GetAllCommentsByPatientId(string id)
         {
@@ -19,10 +27,10 @@ namespace BCI_Project.Controllers
             return Ok(result);
         }
 
-        [HttpGet(nameof(GetAllComments))]
-        public async Task<IActionResult> GetAllComments()
+        [HttpGet(nameof(GetAllCommentsByDoctorId))]
+        public async Task<IActionResult> GetAllCommentsByDoctorId(string id)
         {
-            var result = await _commentservice.GetAllComments();
+            var result = await _commentservice.GetAllCommentsByDoctorId(id);
             return Ok(result);
         }
 

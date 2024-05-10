@@ -12,6 +12,8 @@ namespace BCI_Project.ViewModels.UserVM
         [StringLength(50, MinimumLength = 5)]
         public string Password { get; set; }
         [Required]
+        public string Name { get; set; }
+        [Required]
         public int Age { get; set; }
         [Required]
         public string PhoneNumber { get; set; }

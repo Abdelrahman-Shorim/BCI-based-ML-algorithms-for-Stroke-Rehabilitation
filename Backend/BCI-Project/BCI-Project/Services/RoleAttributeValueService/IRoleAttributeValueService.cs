@@ -10,5 +10,7 @@ namespace BCI_Project.Services.RoleAttributeValueService
         Task<Response<RoleAttributeValueVM>> AddRoleAttributeValue(RoleAttributeValueVM roleattributevalue);
         Task<Response<RoleAttributeValueVM>> UpdateRoleAttributeValue(RoleAttributeValueVM roleattributevalue);
         Task<Response<RoleAttributeValueVM>> DeleteRoleAttributeValue(Guid id);
+
+        Task<Response<ICollection<RoleAttributeValueVM>>> GetAllRoleAttributeValuesByUserId(string userid);
     }
 }

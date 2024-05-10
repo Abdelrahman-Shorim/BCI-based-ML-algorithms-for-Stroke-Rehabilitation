@@ -1,6 +1,7 @@
 ﻿using BCI_Project.Models;
 using BCI_Project.Response;
 using BCI_Project.Services.AttributeService;
+using BCI_Project.Services.DrPatientsService;
 using BCI_Project.Services.GameMovementService;
 using BCI_Project.Services.GameService;
 using BCI_Project.Services.RoleAttributesService;
@@ -28,6 +29,7 @@ namespace BCI_Project.Services.UserService
         private readonly IRoleAttributeValueService _roleattributevalueservice;
         private readonly IGameService _gameservice;
         private readonly IGameMovementService _gamemovementservice;
+        private readonly IDrPatientsService _drpatientsservice;
 
         public UserService
             (
@@ -37,7 +39,8 @@ namespace BCI_Project.Services.UserService
             IRoleAttributeService roleattributeservice,
             IRoleAttributeValueService roleattributevalueservice,
             IGameService gameservice,
-            IGameMovementService gamemovementservice
+            IGameMovementService gamemovementservice,
+            IDrPatientsService drpatientsservice
             )
         {
             _userManager = userManager;
@@ -49,8 +52,55 @@ namespace BCI_Project.Services.UserService
             _roleattributevalueservice = roleattributevalueservice;
             _gameservice = gameservice;
             _gamemovementservice = gamemovementservice;
+            _drpatientsservice = drpatientsservice;
         }
 
+
+        public async Task<Response<Object>> AddDoctor(RegisterVM user)
+        {
+            if (user == null)
+                return new Response<Object>()
+                {
+                    Message = "User is Null",
+                    IsSuccess = false,
+                };
+
+            var userExist = await _userManager.FindByEmailAsync(user.Email);
+            if (userExist != null)
+                return new Response<object>()
+                {
+                    Message = "Email Already Registered",
+                    IsSuccess = false
+                };
+
+            var identityuser = new User
+            {
+                Email = user.Email,
+                UserName = user.Name,
+                //EmailConfirmed = true,
+                PhoneNumber = user.PhoneNumber,
+            };
+            var result = await _userManager.CreateAsync(identityuser, user.Password);
+            if (result.Succeeded)
+            {
+                var result2 = await _userManager.AddToRoleAsync(identityuser, "Admin");
+                if (result2.Succeeded)
+                {
+                   
+                    return new Response<Object>()
+                    {
+                        Message = "User Created Succesfully",
+                        IsSuccess = true,
+                    };
+                }
+            }
+            return new Response<Object>()
+            {
+                Message = "Error While creating user",
+                IsSuccess = false,
+                Errors = result.Errors.Select(e => e.Description).ToList()
+            };
+        }
         public async Task<Response<Object>> RegisterUserAsync(RegisterVM user)
         {
 
@@ -72,7 +122,7 @@ namespace BCI_Project.Services.UserService
             var identityuser = new User
             {
                 Email = user.Email,
-                UserName = user.Email,
+                UserName = user.Name,
                 //EmailConfirmed = true,
                 PhoneNumber = user.PhoneNumber,
             };
@@ -264,6 +314,57 @@ namespace BCI_Project.Services.UserService
                 Message = "This is the list of Progress",
                 IsSuccess = true,
                 Data = mergedList
+            };
+
+        }
+    
+        public async Task<Response<PatientVM>> GetPatientDetails(string patientid)
+        {
+            PatientVM patientdata = new PatientVM();
+            var roleattributevalues = await _roleattributevalueservice.GetAllRoleAttributeValuesByUserId(patientid);
+
+            foreach (var roleattributevalue in roleattributevalues.Data)
+            {
+                var roleattribute = await _roleattributeservice.GetRoleAttributesById(roleattributevalue.Id);
+                if (roleattribute == null) return null;
+                var attribute = await _attributeservice.GetAttributeById(roleattribute.Data.AttributeId);
+                patientdata.PatientAttributes[attribute.Data.AttributeName] = roleattributevalue.Value;
+            }
+            return new Response<PatientVM>()
+            {
+                Message = "This is the Patient Data",
+                IsSuccess = true,
+                Data = patientdata
+            };
+        }
+        public async Task<Response<List<PatientVM>>> GetDoctorPatients(string doctorid)
+        {
+            List<PatientVM> patientslist = [];
+
+            var user = await _userManager.FindByIdAsync(doctorid);
+            if (user == null)
+            {
+                return new Response<List<PatientVM>>()
+                {
+                    Message = "Error getting dr data",
+                    IsSuccess = false,
+                };
+            }
+
+            var drpatientslist= await _drpatientsservice.GetAllDrPatientsByDoctorId(user.Id);
+
+            foreach (var drpatient in drpatientslist.Data)
+            {
+                var patient = await GetPatientDetails(drpatient.PatientId);
+
+                patientslist.Add(patient.Data);
+            }
+
+            return new Response<List<PatientVM>> ()
+            {
+                Message = "This is the patient list for the specified doctor",
+                IsSuccess = true,
+                Data = patientslist
             };
 
         }

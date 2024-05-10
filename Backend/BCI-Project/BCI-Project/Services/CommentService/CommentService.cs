@@ -195,5 +195,33 @@ namespace BCI_Project.Services.CommentService
             };
         }
 
+        public async Task<Response<ICollection<CommentVM>>> GetAllCommentsByDoctorId(string id)
+        {
+            var comments = _unitofwork.Comment.GetAll().Select(a => new CommentVM()
+            {
+                Id = a.Id,
+                PatientId = a.PatientId,
+                DoctorId = a.DoctorId,
+                Message = a.Message,
+                Sender = a.Sender,
+                Date = a.Date,
+            }).Where(b => b.DoctorId == id).OrderBy(a => a.Date).ToList();
+
+            if (comments == null || comments.Count() <= 0)
+            {
+                return new Response<ICollection<CommentVM>>()
+                {
+                    Message = "No Comment Items for this patient",
+                    IsSuccess = true
+                };
+            }
+
+            return new Response<ICollection<CommentVM>>()
+            {
+                Message = "These are the Comment Items for this patient",
+                IsSuccess = true,
+                Data = comments
+            };
+        }
     }
 }

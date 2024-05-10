@@ -158,5 +158,34 @@ namespace BCI_Project.Services.RoleAttributeValueService
                 IsSuccess = true
             };
         }
+    
+        public async Task<Response<ICollection<RoleAttributeValueVM>>> GetAllRoleAttributeValuesByUserId(string userid)
+        {
+            var roleattributevalue = _unitofwork.RoleAttributeValue.GetAll().Select(a => new RoleAttributeValueVM()
+            {
+                Id = a.Id,
+                RoleAttributeId = a.RoleAttributeId,
+                UserId = a.UserId,
+                Value = a.Value
+            }).Where(a=> a.UserId==userid)
+                .ToList();
+
+            if (roleattributevalue == null || roleattributevalue.Count() <= 0)
+            {
+                return new Response<ICollection<RoleAttributeValueVM>>()
+                {
+                    Message = "No RoleAttributeValue Items",
+                    IsSuccess = true
+                };
+            }
+
+            return new Response<ICollection<RoleAttributeValueVM>>()
+            {
+                Message = "These are the RoleAttributeValue Items",
+                IsSuccess = true,
+                Data = roleattributevalue
+            };
+        }
+
     }
 }

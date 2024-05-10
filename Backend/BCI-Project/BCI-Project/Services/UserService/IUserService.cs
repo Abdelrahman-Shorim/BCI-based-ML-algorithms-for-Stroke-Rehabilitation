@@ -10,5 +10,10 @@ namespace BCI_Project.Services.UserService
         Task<Response<Object>> LoginUserAsync(LoginVM user);
         Task<Response<Object>> AddTargetToPatient(string patientid, int target);
         Task<Response<List<int[]>>> GetTreatmentProgressByPatientId(string patientid);
+        Task<Response<List<PatientVM>>> GetDoctorPatients(string doctorid);
+        Task<Response<PatientVM>> GetPatientDetails(string patientid);
+
+        Task<Response<Object>> AddDoctor(RegisterVM user);
+
     }
 }
