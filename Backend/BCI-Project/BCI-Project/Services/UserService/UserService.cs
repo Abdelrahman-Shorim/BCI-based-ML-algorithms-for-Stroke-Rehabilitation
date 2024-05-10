@@ -368,5 +368,32 @@ namespace BCI_Project.Services.UserService
             };
 
         }
+        public async Task<Response<List<DoctorVM>>> GetAllDoctors()
+        {
+            List<DoctorVM> doctorslist = [];
+            var doctors = _userManager.Users.ToList();
+
+            foreach (var user in doctors)
+            {
+                var isDoctor = await _userManager.IsInRoleAsync(user, "Doctor");
+                if (isDoctor==true)
+                {
+                    var numofpatients = await GetDoctorPatients(user.Id);
+
+                    doctorslist.Add(new DoctorVM
+                    {
+                        Id = user.Id,
+                        Name = user.UserName,
+                        NumOfPatients = numofpatients.Data.Count()
+                    });
+                }
+            }
+            return new Response<List<DoctorVM>>()
+            {
+                Message = "These are the list of doctors",
+                IsSuccess = true,
+                Data= doctorslist
+            };
+        }
     }
 }
