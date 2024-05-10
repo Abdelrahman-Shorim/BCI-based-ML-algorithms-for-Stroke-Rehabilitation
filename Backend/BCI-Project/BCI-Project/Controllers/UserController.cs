@@ -55,6 +55,16 @@ namespace BCI_Project.Controllers
             var result = await _userservice.GetDoctorPatients(doctorid);
             return Ok(result);
         }
+
+        [HttpGet(nameof(GetAllDoctors))]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetAllDoctors()
+        {
+            var result = await _userservice.GetAllDoctors();
+            return Ok(result);
+        }
+
+
         [HttpGet(nameof(GetPatientDetails))]
         [AllowAnonymous]
         public async Task<IActionResult> GetPatientDetails(string patientid)
