@@ -481,7 +481,9 @@ namespace BCI_Project.Services.UserService
         public async Task<int> GetDoctorPatientNumbers(string drid)
         {
             var data=await  _drpatientsservice.GetAllDrPatientsByDoctorId(drid);
-            return data.Data.Count();
+            if(data!=null)
+                return data.Data.Count();
+            return 0;
 
         }
         public async Task<Response<List<DoctorVM>>> GetAllDoctors()
@@ -603,7 +605,10 @@ namespace BCI_Project.Services.UserService
                     IsSuccess = true,
                 };
             }
-            var numofpatients = await GetDoctorPatientNumbers(user.Id);
+            int numofpatients = 0;
+            if (isDoctor)
+                numofpatients = await GetDoctorPatientNumbers(user.Id);
+            Console.WriteLine(numofpatients.ToString());
             return new Response<DoctorVM>()
             {
                 Message = "The user data is here",
@@ -612,7 +617,7 @@ namespace BCI_Project.Services.UserService
                 {
                     Id = uid,
                     Name= user.UserName,
-                    phonenumber= user.PhoneNumber,
+                    phonenumber= "ssdf",
                     Email=user.Email,
                     NumOfPatients= numofpatients
                 }
