@@ -128,7 +128,6 @@ app.UseCors(options =>
     AllowAnyHeader();
 });
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();

@@ -14,12 +14,64 @@ namespace BCI_Project.Repository
 
         public static void SeedRoles(ModelBuilder builder)
         {
+            Guid ageid = Guid.NewGuid();
+            Guid patienthistoryid = Guid.NewGuid();
+            Guid genderid = Guid.NewGuid();
+
+            string adminid = Guid.NewGuid().ToString();
+            string patientid = Guid.NewGuid().ToString();
+            string doctorid = Guid.NewGuid().ToString();
+
             builder.Entity<Role>().HasData
                 (
-                new Role() { Name = "Admin", ConcurrencyStamp = "1", NormalizedName = "Admin" },
-                new Role() { Name = "Patient", ConcurrencyStamp = "2", NormalizedName = "Patient" },
-                new Role() { Name = "Doctor", ConcurrencyStamp = "3", NormalizedName = "Doctor" }
+                new Role() {Id=adminid, Name = "Admin", ConcurrencyStamp = "1", NormalizedName = "Admin" },
+                new Role() { Id = patientid, Name = "Patient", ConcurrencyStamp = "2", NormalizedName = "Patient" },
+                new Role() { Id = doctorid, Name = "Doctor", ConcurrencyStamp = "3", NormalizedName = "Doctor" }
                 );
+
+           
+            builder.Entity<Attributes>().HasData(
+                new Attributes()
+                {
+                    Id = ageid,
+                    AttributeName = "Age",
+                    AttributeType = "int"
+                },
+                new Attributes()
+                {
+                    Id = patienthistoryid,
+                    AttributeName = "PatientHistory",
+                    AttributeType = "string"
+                },
+                new Attributes()
+                {
+                    Id = genderid,
+                    AttributeName = "Gender",
+                    AttributeType = "string"
+                }
+            );
+
+            builder.Entity<RoleAttributes>().HasData
+            (
+                new RoleAttributes()
+                {
+                    Id = Guid.NewGuid(),
+                    RoleId = patientid,
+                    AttributeId = ageid,
+                },
+                new RoleAttributes()
+                {
+                    Id = Guid.NewGuid(),
+                    RoleId = patientid,
+                    AttributeId = patienthistoryid,
+                },
+                new RoleAttributes()
+                {
+                    Id = Guid.NewGuid(),
+                    RoleId = patientid,
+                    AttributeId = genderid,
+                }
+            );
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
