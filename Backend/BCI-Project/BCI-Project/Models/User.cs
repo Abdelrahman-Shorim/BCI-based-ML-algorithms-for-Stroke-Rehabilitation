@@ -4,6 +4,7 @@ namespace BCI_Project.Models
 {
     public class User :IdentityUser
     {
+        public bool IsDeleted { get; set; }
         public ICollection<Comments> CommentsPatients { get; set; }
         public ICollection<Comments> CommentsDoctors { get; set; }
 

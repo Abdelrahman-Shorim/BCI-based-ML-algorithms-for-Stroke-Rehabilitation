@@ -111,6 +111,14 @@ namespace BCI_Project.Controllers
             return Ok(result);
         }
 
+        [HttpDelete(nameof(DeleteUser))]
+        [AllowAnonymous]
+        public async Task<IActionResult> DeleteUser( string userid)
+        {
+            var result = await _userservice.DeleteUser(userid);
+            return Ok(result);
+        }
+
         //[HttpPost(nameof(AddAttribute))]
         //[AllowAnonymous]
         //public async Task<IActionResult> AddAttribute([FromBody] AttributeVM attribute)

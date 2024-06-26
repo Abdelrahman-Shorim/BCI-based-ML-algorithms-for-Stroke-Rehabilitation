@@ -15,7 +15,7 @@ namespace BCI_Project.Services.UserService
         Task<Response<PatientVM>> GetPatientDetails(string patientid);
         Task<Response<Object>> AddDoctor(RegisterDoctor user);
         Task<Response<Object>> AddAdmin(RegisterDoctor user);
-
+        Task<Response<Object>> DeleteUser(String userid);
 
         Task<Response<List<PatientVM>>> GetAllPatients();
         Task<Response<List<PatientVM>>> GetUnAssignedPatients();

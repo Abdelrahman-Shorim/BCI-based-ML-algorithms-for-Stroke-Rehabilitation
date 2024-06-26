@@ -163,7 +163,7 @@ namespace BCI_Project.Services.DrPatientsService
                 DoctorId = a.DoctorId,
             }).Where(b=>b.DoctorId==id).ToList();
 
-            if (drpatients == null || drpatients.Count() <= 0)
+            if (drpatients == null )
             {
                 return new Response<ICollection<DrPatientsVM>>()
                 {

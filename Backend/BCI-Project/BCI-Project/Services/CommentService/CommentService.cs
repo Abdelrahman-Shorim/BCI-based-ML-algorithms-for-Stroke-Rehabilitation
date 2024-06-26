@@ -22,6 +22,7 @@ namespace BCI_Project.Services.CommentService
                 DoctorId = a.DoctorId,
                 Message = a.Message,
                 Sender=a.Sender,
+                Receiver = a.Receiver,
                 Date = a.Date,
             }).ToList();
 
@@ -57,6 +58,7 @@ namespace BCI_Project.Services.CommentService
                 DoctorId= comment.DoctorId,
                 Message = comment.Message,
                 Sender= comment.Sender,
+                Receiver = comment.Receiver,
                 Date = comment.Date,
             };
             return new Response<CommentVM>()
@@ -82,6 +84,7 @@ namespace BCI_Project.Services.CommentService
                 DoctorId = comment.DoctorId,
                 Message = comment.Message,
                 Sender = comment.Sender,
+                Receiver = comment.Receiver,
                 Date = comment.Date,
                 IsDeleted = false
             };
@@ -125,6 +128,7 @@ namespace BCI_Project.Services.CommentService
             _comment.Message = comment.Message;
             _comment.Sender= comment.Sender;
             _comment.Date = comment.Date;
+            _comment.Receiver = comment.Receiver;
 
             var updatedcomment = _unitofwork.Comment.Update(_comment);
             if (updatedcomment == null)
@@ -205,6 +209,7 @@ namespace BCI_Project.Services.CommentService
                 Message = a.Message,
                 Sender = a.Sender,
                 Date = a.Date,
+                Receiver = a.Receiver,
             }).Where(b => b.DoctorId == id).OrderBy(a => a.Date).ToList();
 
             if (comments == null || comments.Count() <= 0)

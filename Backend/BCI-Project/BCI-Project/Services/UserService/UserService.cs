@@ -56,6 +56,45 @@ namespace BCI_Project.Services.UserService
             _drpatientsservice = drpatientsservice;
         }
 
+        private bool IsUserDeleted(User user)
+        {
+            return user.IsDeleted;
+        }
+        public async Task<Response<Object>> DeleteUser(String userid)
+        {
+            var user = await _userManager.FindByIdAsync(userid);
+            if (user == null)
+            {
+                return new Response<object>
+                {
+                    Message = "There is no user with that Email address",
+                    IsSuccess = true,
+                };
+            }
+            if (IsUserDeleted(user))
+            {
+                return new Response<object>
+                {
+                    Message = "User is already deleted",
+                    IsSuccess = true,
+                };
+            }
+            user.IsDeleted = true;
+            var deleteuser = await _userManager.UpdateAsync(user);
+            if (deleteuser != null)
+            {
+                return new Response<object>
+                {
+                    Message = "User deleted successfully",
+                    IsSuccess = true,
+                };
+            }
+            return new Response<object>
+            {
+                Message = "Error deleting user",
+                IsSuccess = false,
+            };
+        }
 
         public async Task<Response<Object>> AddDoctor(RegisterDoctor user)
         {
@@ -78,6 +117,7 @@ namespace BCI_Project.Services.UserService
             {
                 Email = user.Email,
                 UserName = user.Name,
+                PhoneNumber = user.PhoneNumber,
                  
                 //EmailConfirmed = true,
             };
@@ -236,7 +276,16 @@ namespace BCI_Project.Services.UserService
         public async Task<Response<Object>> LoginUserAsync(LoginVM LoginData)
         {
             var user = await _userManager.FindByEmailAsync(LoginData.Email);
-            if (user == null)
+            if (user == null )
+            {
+                return new Response<object>
+                {
+                    Message = "There is no user with that Email address",
+                    IsSuccess = false,
+                };
+            }
+
+            if (IsUserDeleted(user))
             {
                 return new Response<object>
                 {
@@ -338,6 +387,14 @@ namespace BCI_Project.Services.UserService
                     Message = "There is no patient with this id",
                     IsSuccess = false,
                 };
+            if (IsUserDeleted(patient))
+            {
+                return new Response<List<int[]>>
+                {
+                    Message = "There is no patient with this id",
+                    IsSuccess = false,
+                };
+            }
             var patientgames = await _gameservice.GetAllGamesByPatientId(patientid);
             if(patientgames==null || patientgames.Data.Count() <= 0)
                 return new Response<List<int[]>>
@@ -417,13 +474,29 @@ namespace BCI_Project.Services.UserService
             {
                 patientdata.AssignedDrId = assignedDoctor.Data.DoctorId;
                 var drdata = await _userManager.FindByIdAsync(assignedDoctor.Data.DoctorId);
-                if(drdata != null)
+                if(drdata != null && !IsUserDeleted(drdata))
                 {
                     patientdata.AssignedDrName = drdata.UserName;
+                }
+                else
+                {
+                    return new Response<PatientVM>()
+                    {
+                        Message = "No dr with this user id",
+                        IsSuccess = false,
+                    };
                 }
             }
             patientdata.Id = patientid;
             var user =await _userManager.FindByIdAsync(patientid);
+            if(user == null || IsUserDeleted(user))
+            {
+                return new Response<PatientVM>()
+                {
+                    Message = "No user with this user id",
+                    IsSuccess = false,
+                };
+            }
             patientdata.Email = user.Email;
             patientdata.Phone = user.PhoneNumber;
             patientdata.Name = user.UserName;
@@ -439,7 +512,7 @@ namespace BCI_Project.Services.UserService
             List<PatientVM> patientslist = [];
 
             var user = await _userManager.FindByIdAsync(doctorid);
-            if (user == null)
+            if (user == null || IsUserDeleted(user))
             {
                 return new Response<List<PatientVM>>()
                 {
@@ -489,7 +562,7 @@ namespace BCI_Project.Services.UserService
         public async Task<Response<List<DoctorVM>>> GetAllDoctors()
         {
             List<DoctorVM> doctorslist = [];
-            var doctors = _userManager.Users.ToList();
+            var doctors = _userManager.Users.Where(a=>a.IsDeleted==false).ToList();
 
             if (doctors.Count() == 0)
             {
@@ -506,6 +579,8 @@ namespace BCI_Project.Services.UserService
                 if (isDoctor==true)
                 {
                     var numofpatients = await GetDoctorPatientNumbers(user.Id);
+                    Console.WriteLine("hehehehehheehhhehehehehee");
+                    Console.WriteLine(numofpatients);
                         doctorslist.Add(new DoctorVM
                         {
                             Id = user.Id,
@@ -528,7 +603,7 @@ namespace BCI_Project.Services.UserService
         public async Task<Response<List<PatientVM>>> GetAllPatients() 
         {
             List<PatientVM> patientslist = [];
-            var allusers = _userManager.Users.ToList();
+            var allusers = _userManager.Users.Where(a => a.IsDeleted == false).ToList();
 
             if (allusers.Count() == 0)
             {
@@ -587,9 +662,7 @@ namespace BCI_Project.Services.UserService
         public async Task<Response<DoctorVM>> GetDoctorOrAdminProfile(string uid)
         {
             var user = await _userManager.FindByIdAsync(uid);
-            var isAdmin = await _userManager.IsInRoleAsync(user, "Admin");
-            var isDoctor = await _userManager.IsInRoleAsync(user, "Doctor");
-            if (user == null)
+            if (user == null || IsUserDeleted(user))
             {
                 return new Response<DoctorVM>()
                 {
@@ -597,6 +670,8 @@ namespace BCI_Project.Services.UserService
                     IsSuccess = true,
                 };
             }
+            var isAdmin = await _userManager.IsInRoleAsync(user, "Admin");
+            var isDoctor = await _userManager.IsInRoleAsync(user, "Doctor");
             if (isAdmin==false && isDoctor==false)
             {
                 return new Response<DoctorVM>()
